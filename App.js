@@ -12,6 +12,9 @@ import { useEffect } from "react";
 import Onboarding1 from "./screens/Onboarding/Onboarding1";
 import Onboarding2 from "./screens/Onboarding/Onboarding2";
 import PlaylandName from "./screens/PlayLandCreation/PlaylandName";
+import Playlandlocation from "./screens/PlayLandCreation/Playlandlocation";
+import PlaylandDescription from "./screens/PlayLandCreation/PlayLandDetails";
+import PlaylandImage from "./screens/PlayLandCreation/PlaylandImage";
 
 const theme = {
   ...DefaultTheme,
@@ -61,6 +64,30 @@ export default function App() {
               headerShown: false,
             }}
           /> */}
+          <Stack.Screen
+            name="PlaylandImage"
+            component={PlaylandImage}
+            options={{
+              title: null,
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="PlaylandDescription"
+            component={PlaylandDescription}
+            options={{
+              title: null,
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Playlandlocation"
+            component={Playlandlocation}
+            options={{
+              title: null,
+              headerShown: false,
+            }}
+          />
 
           <Stack.Screen
             name="PlaylandName"

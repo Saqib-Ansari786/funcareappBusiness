@@ -9,6 +9,8 @@ export default function PlaylandName() {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
+      <Image source={images.name} style={styles.image} resizeMode="stretch" />
+
       <View
         style={{
           position: "absolute",
@@ -52,7 +54,6 @@ export default function PlaylandName() {
           </TouchableOpacity>
         </View>
       </View>
-      <Image source={images.name} style={styles.image} />
       <TextInput
         mode="outlined"
         label={"Playland Name"}
@@ -60,7 +61,11 @@ export default function PlaylandName() {
         style={styles.textInput}
       />
 
-      <Button mode="contained-tonal" icon={"chevron-right"}>
+      <Button
+        mode="contained-tonal"
+        icon={"chevron-right"}
+        onPress={() => navigation.navigate("Playlandlocation")}
+      >
         <Text style={styles.buttonText}>Next</Text>
       </Button>
     </View>
@@ -69,8 +74,6 @@ export default function PlaylandName() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -83,7 +86,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 400,
+    height: 500,
     marginBottom: 20,
   },
 
