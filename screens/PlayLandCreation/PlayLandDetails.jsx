@@ -55,6 +55,7 @@ export default function PlaylandDescription() {
           </TouchableOpacity>
         </View>
       </View>
+      <Text style={{ ...FONTS.h2 }}>Enter Playland Details</Text>
       <TextInput
         mode="outlined"
         label={"Price"}
