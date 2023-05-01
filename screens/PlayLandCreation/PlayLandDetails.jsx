@@ -1,13 +1,30 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Button, TextInput } from "react-native-paper";
 import { Image } from "react-native";
 import { images, COLORS, FONTS, SIZES, icons } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "react-native";
+import RNDateTimePicker, {
+  DateTimePickerAndroid,
+} from "@react-native-community/datetimepicker";
 
 export default function PlaylandDescription() {
   const navigation = useNavigation();
+  const [startTime, setStartTime] = useState(new Date());
+  const [endTime, setEndTime] = useState(new Date());
+
+  const [showStartTimePicker, setShowStartTimePicker] = useState(false);
+  const [showEndTimePicker, setShowEndTimePicker] = useState(false);
+
+  const handleStart = () => {
+    setShowStartTimePicker(true);
+  };
+
+  const handleEnd = () => {
+    setShowEndTimePicker(true);
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image source={images.playground} style={styles.image} />
@@ -68,12 +85,48 @@ export default function PlaylandDescription() {
         placeholder="Enter your playland Discount"
         style={styles.textInput}
       />
-      <TextInput
-        mode="outlined"
-        label={"Timings"}
-        placeholder="Enter your playland Timings"
-        style={styles.textInput}
-      />
+      <Text style={{ ...FONTS.h3, alignSelf: "flex-start", marginLeft: 35 }}>
+        Set Start Time:
+      </Text>
+      <Button mode="outlined" onPress={handleStart} style={styles.textInput}>
+        <Text style={styles.buttonText}>
+          {startTime && startTime.toLocaleTimeString()}
+        </Text>
+      </Button>
+      {showStartTimePicker && (
+        <RNDateTimePicker
+          testID="timePicker"
+          value={startTime}
+          mode={"time"}
+          is24Hour={true}
+          display="default"
+          onChange={(event, selectedDate) => {
+            setShowStartTimePicker(false);
+            setStartTime(selectedDate);
+          }}
+        />
+      )}
+      <Text style={{ ...FONTS.h3, alignSelf: "flex-start", marginLeft: 35 }}>
+        Set End Time:
+      </Text>
+      <Button mode="outlined" onPress={handleEnd} style={styles.textInput}>
+        <Text style={styles.buttonText}>
+          {endTime && endTime.toLocaleTimeString()}
+        </Text>
+      </Button>
+      {showEndTimePicker && (
+        <RNDateTimePicker
+          testID="timePicker"
+          value={endTime}
+          mode={"time"}
+          is24Hour={true}
+          display="default"
+          onChange={(event, selectedDate) => {
+            setShowEndTimePicker(false);
+            setEndTime(selectedDate);
+          }}
+        />
+      )}
       <TextInput
         mode="outlined"
         label={"Description"}

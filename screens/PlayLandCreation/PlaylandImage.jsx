@@ -55,10 +55,27 @@ export default function PlaylandImage({ navigation }) {
         <IconButton icon="camera" size={30} color={COLORS.primary} />
         <Text style={styles.changeAvatar}>Update Playland Image</Text>
       </TouchableOpacity>
-
-      <Button mode="contained" onPress={() => navigation.navigate("Home")}>
-        <Text style={styles.buttonText}>Submit</Text>
-      </Button>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignSelf: "flex-start",
+          width: "100%",
+          paddingHorizontal: 20,
+          marginVertical: 20,
+        }}
+      >
+        <Button
+          mode="contained"
+          onPress={() => navigation.navigate("Home")}
+          buttonColor="orange"
+        >
+          <Text style={styles.buttonText}>Skip</Text>
+        </Button>
+        <Button mode="contained" onPress={() => navigation.navigate("Home")}>
+          <Text style={styles.buttonText}>Submit</Text>
+        </Button>
+      </View>
     </View>
   );
 }

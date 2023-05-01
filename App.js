@@ -15,6 +15,7 @@ import PlaylandName from "./screens/PlayLandCreation/PlaylandName";
 import Playlandlocation from "./screens/PlayLandCreation/Playlandlocation";
 import PlaylandDescription from "./screens/PlayLandCreation/PlayLandDetails";
 import PlaylandImage from "./screens/PlayLandCreation/PlaylandImage";
+import EditDetailScreen from "./screens/Editplayland";
 
 const theme = {
   ...DefaultTheme,
@@ -64,6 +65,14 @@ export default function App() {
               headerShown: false,
             }}
           /> */}
+          <Stack.Screen
+            name="Editplayland"
+            component={EditDetailScreen}
+            options={{
+              title: null,
+              headerShown: false,
+            }}
+          />
           <Stack.Screen
             name="PlaylandImage"
             component={PlaylandImage}

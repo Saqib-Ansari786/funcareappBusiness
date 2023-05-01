@@ -1,15 +1,17 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Avatar, Button } from "react-native-paper";
 import { images } from "../constants";
+import { useNavigation } from "@react-navigation/native";
 
 const PlaylandScreen = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.tab}>
         <Avatar.Image
           style={styles.avatar}
-          size={70}
+          size={60}
           source={images.playground}
         />
         <View style={styles.nameContainer}>
@@ -17,13 +19,20 @@ const PlaylandScreen = () => {
           <Button
             style={styles.editButton}
             mode="contained"
-            onPress={() => console.log("Edit button pressed")}
+            onPress={() =>
+              navigation.navigate("Editplayland", {
+                price: "10",
+                discount: "10",
+                packages:
+                  "Bumper package: 10 Merry-Go-Round in 20$\nSimple package: 2 Merry-Go-Round in 5$",
+              })
+            }
           >
             Edit
           </Button>
         </View>
       </View>
-      <View style={styles.content}>
+      <ScrollView style={styles.content}>
         <Text style={styles.description}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
           venenatis, lectus non molestie blandit, purus justo finibus magna,
@@ -59,7 +68,7 @@ const PlaylandScreen = () => {
             </Text>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -76,7 +85,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   avatar: {
-    marginRight: 20,
+    marginRight: 5,
   },
   nameContainer: {
     flex: 1,
@@ -87,21 +96,24 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 30,
     fontWeight: "bold",
+    color: "#000",
   },
   editButton: {
-    marginLeft: 20,
     backgroundColor: "#FBC02D",
     borderRadius: 20,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
+    marginLeft: 5,
   },
   content: {
     flex: 1,
+    marginTop: 20,
+    paddingHorizontal: 10,
   },
   description: {
     fontSize: 18,
     marginBottom: 30,
     lineHeight: 28,
+    color: "#000",
+    textAlign: "justify",
   },
   details: {
     marginBottom: 20,
@@ -110,14 +122,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 15,
+    backgroundColor: "#F9F9F9",
+    padding: 10,
+    borderRadius: 10,
   },
   detailLabel: {
+    flex: 1,
     fontWeight: "bold",
     marginRight: 20,
     color: "#757575",
   },
   detailValue: {
+    flex: 3,
     fontSize: 18,
+    textAlign: "right",
+    color: "#424242",
   },
 });
 
