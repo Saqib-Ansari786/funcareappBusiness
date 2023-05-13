@@ -10,11 +10,14 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { Button, IconButton, TextInput } from "react-native-paper";
 import { COLORS, FONTS, SIZES } from "../../constants";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function PlaylandImage({ navigation }) {
   const [avatarUrl, setAvatarUrl] = useState(
     "https://randomuser.me/api/portraits/men/1.jpg"
   );
+  const dispatch = useDispatch();
+  const playLandData = useSelector((state) => state.playland);
 
   const handlePickImage = async () => {
     let permissionResult;
@@ -41,10 +44,33 @@ export default function PlaylandImage({ navigation }) {
     }
   };
 
-  const handleSaveChanges = () => {
-    // Your code to save changes here
-  };
+  async function handleSave() {
+    dispatch({ type: "SET_IMAGE", payload: avatarUrl });
+    const finaldata = {
+      ...playLandData,
+      image: avatarUrl,
+    };
+    console.log(finaldata);
 
+    try {
+      const response = await fetch(
+        "http://starter-express-api-git-main-salman36.vercel.app/api/auth/create/playlanduser",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(finaldata),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+
+    navigation.navigate("Home");
+  }
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -72,7 +98,7 @@ export default function PlaylandImage({ navigation }) {
         >
           <Text style={styles.buttonText}>Skip</Text>
         </Button>
-        <Button mode="contained" onPress={() => navigation.navigate("Home")}>
+        <Button mode="contained" onPress={handleSave}>
           <Text style={styles.buttonText}>Submit</Text>
         </Button>
       </View>

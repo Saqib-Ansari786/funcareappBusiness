@@ -4,9 +4,12 @@ import { Button, TextInput } from "react-native-paper";
 import { Image } from "react-native";
 import { images, COLORS, FONTS, SIZES, icons } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
 
 export default function PlaylandName() {
   const navigation = useNavigation();
+  const [playlandName, setPlaylandName] = React.useState("");
+  const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <Image source={images.name} style={styles.image} resizeMode="stretch" />
@@ -59,12 +62,16 @@ export default function PlaylandName() {
         label={"Playland Name"}
         placeholder="Enter your playland name"
         style={styles.textInput}
+        onChangeText={(text) => setPlaylandName(text)}
       />
 
       <Button
         mode="contained-tonal"
         icon={"chevron-right"}
-        onPress={() => navigation.navigate("Playlandlocation")}
+        onPress={() => {
+          dispatch({ type: "SET_PLAYLAND_NAME", payload: playlandName });
+          navigation.navigate("Playlandlocation");
+        }}
       >
         <Text style={styles.buttonText}>Next</Text>
       </Button>

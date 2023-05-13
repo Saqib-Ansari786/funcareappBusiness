@@ -6,7 +6,8 @@ import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { COLORS, SIZES, FONTS, icons } from "./constants";
 import Tabs from "./navigation/tabs";
 import SignUpScreen from "./screens/SignUpScreen";
-import { Provider } from "react-native-paper";
+import { Provider as PaperProvider } from "react-native-paper";
+import { Provider as ReduxProvider, useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import Onboarding1 from "./screens/Onboarding/Onboarding1";
@@ -16,6 +17,7 @@ import Playlandlocation from "./screens/PlayLandCreation/Playlandlocation";
 import PlaylandDescription from "./screens/PlayLandCreation/PlayLandDetails";
 import PlaylandImage from "./screens/PlayLandCreation/PlaylandImage";
 import EditDetailScreen from "./screens/Editplayland";
+import store from "./store/store";
 
 const theme = {
   ...DefaultTheme,
@@ -25,15 +27,18 @@ const theme = {
   },
 };
 
-export default function App() {
+export function Main() {
   const [route, setRoute] = useState("onboarding1");
+  const dispatch = useDispatch();
+
   useEffect(() => {
     checkIfLoggedIn();
   }, []);
   const checkIfLoggedIn = async () => {
     const authId = await AsyncStorage.getItem("authId");
     if (authId) {
-      // User is already authenticated, navigate to home screen
+      // User is authenticated, navigate to home screen
+      dispatch({ type: "SET_USER_ID", payload: authId });
       setRoute("Home");
     } else {
       // User is not authenticated, navigate to sign up screen
@@ -53,7 +58,7 @@ export default function App() {
   const Stack = createStackNavigator();
 
   return (
-    <Provider>
+    <PaperProvider>
       <NavigationContainer theme={theme}>
         <Stack.Navigator initialRouteName={route}>
           {/* Screens */}
@@ -213,9 +218,17 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-    </Provider>
+    </PaperProvider>
   );
 }
+
+export default App = () => {
+  return (
+    <ReduxProvider store={store}>
+      <Main />
+    </ReduxProvider>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

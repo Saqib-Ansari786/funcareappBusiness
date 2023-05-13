@@ -8,14 +8,19 @@ import { ScrollView } from "react-native";
 import RNDateTimePicker, {
   DateTimePickerAndroid,
 } from "@react-native-community/datetimepicker";
+import { useDispatch } from "react-redux";
 
 export default function PlaylandDescription() {
   const navigation = useNavigation();
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
-
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [discount, setDiscount] = useState("");
   const [showStartTimePicker, setShowStartTimePicker] = useState(false);
   const [showEndTimePicker, setShowEndTimePicker] = useState(false);
+
+  const dispatch = useDispatch();
 
   const handleStart = () => {
     setShowStartTimePicker(true);
@@ -78,12 +83,14 @@ export default function PlaylandDescription() {
         label={"Price"}
         placeholder="Enter your playland price"
         style={styles.textInput}
+        onChangeText={(text) => setPrice(text)}
       />
       <TextInput
         mode="outlined"
         label={"Any Discount"}
         placeholder="Enter your playland Discount"
         style={styles.textInput}
+        onChangeText={(text) => setDiscount(text)}
       />
       <Text style={{ ...FONTS.h3, alignSelf: "flex-start", marginLeft: 35 }}>
         Set Start Time:
@@ -134,12 +141,26 @@ export default function PlaylandDescription() {
         style={[styles.textInput, { height: SIZES.height * 0.2 }]}
         multiline
         numberOfLines={4}
+        onChangeText={(text) => setDescription(text)}
       />
 
       <Button
         mode="contained-tonal"
         icon={"chevron-right"}
-        onPress={() => navigation.navigate("PlaylandImage")}
+        onPress={() => {
+          dispatch({ type: "SET_DESCRIPTION", payload: description });
+          dispatch({ type: "SET_PRICE", payload: price });
+          dispatch({ type: "SET_DISCOUNT", payload: discount });
+          dispatch({
+            type: "SET_TIME_OPEN",
+            payload: startTime.toLocaleTimeString(),
+          });
+          dispatch({
+            type: "SET_TIME_CLOSE",
+            payload: endTime.toLocaleTimeString(),
+          });
+          navigation.navigate("PlaylandImage");
+        }}
       >
         <Text style={styles.buttonText}>Submit</Text>
       </Button>

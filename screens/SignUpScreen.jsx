@@ -14,6 +14,7 @@ import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
 import { phone, verification } from "../constants/images";
 import { COLORS, FONTS, SIZES } from "../constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
 
 const SignUpScreen = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -22,6 +23,7 @@ const SignUpScreen = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const recaptchaVerifier = useRef(null);
   const [countryCode, setCountryCode] = useState("+92");
+  const dispatch = useDispatch();
 
   const sendVerificationCode = () => {
     const phoneProvider = new firebase.auth.PhoneAuthProvider();
@@ -53,7 +55,33 @@ const SignUpScreen = ({ navigation }) => {
         console.log(result);
         Alert.alert("Verification Successful", "You are now signed in!");
         await AsyncStorage.setItem("authId", result.user.uid); // Save the authentication ID to storage
-        gotoUserProfile();
+        dispatch({ type: "SET_USER_ID", payload: result.user.uid });
+        const data = {
+          firebase_id: result.user.uid,
+          name: "Salman",
+          email: "salman@gmail.com",
+          phone: Number(result.user.phoneNumber),
+          latitude: 24.8607,
+          longitude: 67.0011,
+          image: "salmanimage",
+        };
+        try {
+          const response = await fetch(
+            "http://starter-express-api-git-main-salman36.vercel.app/api/auth/businessuser",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            }
+          );
+          const json = await response.json();
+          console.log(json);
+          gotoUserProfile();
+        } catch (error) {
+          console.log(error);
+        }
       })
       .catch((error) => {
         setErrorMessage("Invalid OTP Code! Please write Right Code...");
@@ -64,7 +92,7 @@ const SignUpScreen = ({ navigation }) => {
   function gotoUserProfile() {
     setTimeout(() => {
       navigation.navigate("Home");
-    }, 1000);
+    }, 500);
   }
 
   return (

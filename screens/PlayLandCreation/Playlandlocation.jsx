@@ -12,28 +12,12 @@ import { Button, TextInput } from "react-native-paper";
 import { Image } from "react-native";
 import { images, COLORS, FONTS, SIZES, icons } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
-import MapView from "react-native-maps";
+import { useDispatch } from "react-redux";
 
 export default function Playlandlocation() {
   const navigation = useNavigation();
-  const [isOpen, setIsOpen] = useState(false);
-  const [animation, setAnimation] = useState(new Animated.Value(0));
-
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
-    Animated.timing(animation, {
-      toValue: isOpen ? 0 : 1,
-      duration: 300,
-      useNativeDriver: false,
-    }).start();
-  };
-
-  const dropdownStyle = {
-    height: animation.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, 200],
-    }),
-  };
+  const [locationLink, setLocationLink] = useState("");
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
@@ -83,16 +67,24 @@ export default function Playlandlocation() {
         </View>
       </View>
       <TextInput
-        mode="outlined"
-        label={"Playland Location"}
-        placeholder="Enter your playland location"
         style={styles.textInput}
+        label="Enter the Google Maps location link"
+        value={locationLink}
+        onChangeText={setLocationLink}
+        right={<TextInput.Icon name="information-outline" />}
+        // Add the following props for the guidelines box
+        mode="outlined"
+        dense={true}
+        placeholder="e.g. https://goo.gl/maps/abc123"
       />
 
       <Button
         mode="contained-tonal"
         icon={"chevron-right"}
-        onPress={() => navigation.navigate("PlaylandDescription")}
+        onPress={() => {
+          dispatch({ type: "SET_LATITUDE", payload: locationLink });
+          navigation.navigate("PlaylandDescription");
+        }}
       >
         <Text style={styles.buttonText}>Next</Text>
       </Button>
@@ -120,7 +112,7 @@ const styles = StyleSheet.create({
 
   textInput: {
     height: SIZES.height * 0.09,
-    width: SIZES.width * 0.8,
+    width: SIZES.width * 0.9,
     margin: SIZES.radius,
   },
 });

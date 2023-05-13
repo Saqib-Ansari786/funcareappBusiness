@@ -1,14 +1,18 @@
-import { View, Text, StyleSheet } from "react-native";
+import { ScrollView, Text, StyleSheet } from "react-native";
 import React from "react";
 import { Button } from "react-native-paper";
 import { COLORS, FONTS, images } from "../constants";
 import { Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 export default function Home() {
   const navigation = useNavigation();
+  const { playland_name, description, time_open } = useSelector(
+    (state) => state.playland
+  );
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Image source={images.booking} style={styles.image} />
       <Text style={styles.text}>
         You have not create any playLand yet. Click the button below to create
@@ -19,13 +23,12 @@ export default function Home() {
       >
         <Text style={styles.buttonText}>Click me</Text>
       </Button>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
