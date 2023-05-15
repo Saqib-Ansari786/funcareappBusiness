@@ -9,6 +9,8 @@ import RNDateTimePicker, {
   DateTimePickerAndroid,
 } from "@react-native-community/datetimepicker";
 import { useDispatch } from "react-redux";
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 export default function PlaylandDescription() {
   const navigation = useNavigation();
@@ -78,92 +80,144 @@ export default function PlaylandDescription() {
         </View>
       </View>
       <Text style={{ ...FONTS.h2 }}>Enter Playland Details</Text>
-      <TextInput
-        mode="outlined"
-        label={"Price"}
-        placeholder="Enter your playland price"
-        style={styles.textInput}
-        onChangeText={(text) => setPrice(text)}
-      />
-      <TextInput
-        mode="outlined"
-        label={"Any Discount"}
-        placeholder="Enter your playland Discount"
-        style={styles.textInput}
-        onChangeText={(text) => setDiscount(text)}
-      />
-      <Text style={{ ...FONTS.h3, alignSelf: "flex-start", marginLeft: 35 }}>
-        Set Start Time:
-      </Text>
-      <Button mode="outlined" onPress={handleStart} style={styles.textInput}>
-        <Text style={styles.buttonText}>
-          {startTime && startTime.toLocaleTimeString()}
-        </Text>
-      </Button>
-      {showStartTimePicker && (
-        <RNDateTimePicker
-          testID="timePicker"
-          value={startTime}
-          mode={"time"}
-          is24Hour={true}
-          display="default"
-          onChange={(event, selectedDate) => {
-            setShowStartTimePicker(false);
-            setStartTime(selectedDate);
-          }}
-        />
-      )}
-      <Text style={{ ...FONTS.h3, alignSelf: "flex-start", marginLeft: 35 }}>
-        Set End Time:
-      </Text>
-      <Button mode="outlined" onPress={handleEnd} style={styles.textInput}>
-        <Text style={styles.buttonText}>
-          {endTime && endTime.toLocaleTimeString()}
-        </Text>
-      </Button>
-      {showEndTimePicker && (
-        <RNDateTimePicker
-          testID="timePicker"
-          value={endTime}
-          mode={"time"}
-          is24Hour={true}
-          display="default"
-          onChange={(event, selectedDate) => {
-            setShowEndTimePicker(false);
-            setEndTime(selectedDate);
-          }}
-        />
-      )}
-      <TextInput
-        mode="outlined"
-        label={"Description"}
-        placeholder="Enter your playland Description"
-        style={[styles.textInput, { height: SIZES.height * 0.2 }]}
-        multiline
-        numberOfLines={4}
-        onChangeText={(text) => setDescription(text)}
-      />
-
-      <Button
-        mode="contained-tonal"
-        icon={"chevron-right"}
-        onPress={() => {
-          dispatch({ type: "SET_DESCRIPTION", payload: description });
-          dispatch({ type: "SET_PRICE", payload: price });
-          dispatch({ type: "SET_DISCOUNT", payload: discount });
+      <Formik
+        initialValues={{ price: "", discount: "", description: "" }}
+        onSubmit={(values) => {
+          dispatch({ type: "SET_PRICE", payload: values.price });
+          dispatch({ type: "SET_DISCOUNT", payload: values.discount });
+          dispatch({ type: "SET_DESCRIPTION", payload: values.description });
           dispatch({
-            type: "SET_TIME_OPEN",
+            type: "SET_START_TIME",
             payload: startTime.toLocaleTimeString(),
           });
           dispatch({
-            type: "SET_TIME_CLOSE",
+            type: "SET_END_TIME",
             payload: endTime.toLocaleTimeString(),
           });
           navigation.navigate("PlaylandImage");
         }}
+        validationSchema={Yup.object().shape({
+          price: Yup.number().required("Price is required"),
+          discount: Yup.number().required("Discount is required"),
+          description: Yup.string().required("Description is required"),
+        })}
       >
-        <Text style={styles.buttonText}>Submit</Text>
-      </Button>
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+        }) => (
+          <View>
+            <TextInput
+              mode="outlined"
+              label={"Price"}
+              placeholder="Enter your playland price"
+              style={styles.textInput}
+              onChangeText={handleChange("price")}
+              onBlur={handleBlur("price")}
+              value={values.price}
+              error={errors.price && touched.price}
+            />
+            {errors.price && touched.price && (
+              <Text style={styles.error}>{errors.price}</Text>
+            )}
+            <TextInput
+              mode="outlined"
+              label={"Any Discount"}
+              placeholder="Enter your playland Discount"
+              style={styles.textInput}
+              onChangeText={handleChange("discount")}
+              onBlur={handleBlur("discount")}
+              value={values.discount}
+              error={errors.discount && touched.discount}
+            />
+            {errors.discount && touched.discount && (
+              <Text style={styles.error}>{errors.discount}</Text>
+            )}
+
+            <Text
+              style={{ ...FONTS.h3, alignSelf: "flex-start", marginLeft: 35 }}
+            >
+              Set Start Time:
+            </Text>
+            <Button
+              mode="outlined"
+              onPress={handleStart}
+              style={styles.textInput}
+            >
+              <Text style={styles.buttonText}>
+                {startTime && startTime.toLocaleTimeString()}
+              </Text>
+            </Button>
+            {showStartTimePicker && (
+              <RNDateTimePicker
+                testID="timePicker"
+                value={startTime}
+                mode={"time"}
+                is24Hour={true}
+                display="default"
+                onChange={(event, selectedDate) => {
+                  setShowStartTimePicker(false);
+                  setStartTime(selectedDate);
+                }}
+              />
+            )}
+            <Text
+              style={{ ...FONTS.h3, alignSelf: "flex-start", marginLeft: 35 }}
+            >
+              Set End Time:
+            </Text>
+            <Button
+              mode="outlined"
+              onPress={handleEnd}
+              style={styles.textInput}
+            >
+              <Text style={styles.buttonText}>
+                {endTime && endTime.toLocaleTimeString()}
+              </Text>
+            </Button>
+            {showEndTimePicker && (
+              <RNDateTimePicker
+                testID="timePicker"
+                value={endTime}
+                mode={"time"}
+                is24Hour={true}
+                display="default"
+                onChange={(event, selectedDate) => {
+                  setShowEndTimePicker(false);
+                  setEndTime(selectedDate);
+                }}
+              />
+            )}
+            <TextInput
+              mode="outlined"
+              label={"Description"}
+              placeholder="Enter your playland Description"
+              style={[styles.textInput, { height: SIZES.height * 0.2 }]}
+              multiline
+              numberOfLines={4}
+              onChangeText={handleChange("description")}
+              onBlur={handleBlur("description")}
+              value={values.description}
+              error={errors.description && touched.description}
+            />
+            {errors.description && touched.description && (
+              <Text style={styles.error}>{errors.description}</Text>
+            )}
+
+            <Button
+              mode="contained-tonal"
+              icon={"chevron-right"}
+              onPress={handleSubmit}
+            >
+              <Text style={styles.buttonText}>Submit</Text>
+            </Button>
+          </View>
+        )}
+      </Formik>
     </ScrollView>
   );
 }
@@ -190,5 +244,9 @@ const styles = StyleSheet.create({
     height: SIZES.height * 0.09,
     width: SIZES.width * 0.8,
     margin: SIZES.radius,
+  },
+  error: {
+    color: "red",
+    marginLeft: 35,
   },
 });

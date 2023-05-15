@@ -1,15 +1,49 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
-import { Button, TextInput } from "react-native-paper";
+import { Button, TextInput as PaperTextInput } from "react-native-paper";
 import { Image } from "react-native";
 import { images, COLORS, FONTS, SIZES, icons } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
+import { Formik } from "formik";
+import * as Yup from "yup";
+
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required("Required"),
+});
+
+const initialValues = { name: "" };
+
+const TextInput = ({
+  label,
+  mode,
+  onChangeText,
+  value,
+  error,
+  touched,
+  ...props
+}) => (
+  <PaperTextInput
+    label={label}
+    mode={mode}
+    onChangeText={onChangeText}
+    value={value}
+    error={error}
+    onBlur={() => touched && props.onBlur()}
+    style={styles.textInput}
+    {...props}
+  />
+);
 
 export default function PlaylandName() {
   const navigation = useNavigation();
   const [playlandName, setPlaylandName] = React.useState("");
   const dispatch = useDispatch();
+
+  const onSubmit = (values) => {
+    dispatch({ type: "SET_PLAYLAND_NAME", payload: values.name });
+    navigation.navigate("Playlandlocation");
+  };
   return (
     <View style={styles.container}>
       <Image source={images.name} style={styles.image} resizeMode="stretch" />
@@ -57,24 +91,35 @@ export default function PlaylandName() {
           </TouchableOpacity>
         </View>
       </View>
-      <TextInput
-        mode="outlined"
-        label={"Playland Name"}
-        placeholder="Enter your playland name"
-        style={styles.textInput}
-        onChangeText={(text) => setPlaylandName(text)}
-      />
-
-      <Button
-        mode="contained-tonal"
-        icon={"chevron-right"}
-        onPress={() => {
-          dispatch({ type: "SET_PLAYLAND_NAME", payload: playlandName });
-          navigation.navigate("Playlandlocation");
-        }}
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        validationSchema={validationSchema}
       >
-        <Text style={styles.buttonText}>Next</Text>
-      </Button>
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+        }) => (
+          <>
+            <TextInput
+              label="Playland Name"
+              mode="outlined"
+              onChangeText={handleChange("name")}
+              value={values.name}
+              error={touched.name && errors.name}
+              touched={touched.name}
+              onBlur={handleBlur("name")}
+            />
+            <Button mode="contained" onPress={handleSubmit}>
+              Next
+            </Button>
+          </>
+        )}
+      </Formik>
     </View>
   );
 }

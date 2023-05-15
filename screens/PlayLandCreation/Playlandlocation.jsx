@@ -13,11 +13,22 @@ import { Image } from "react-native";
 import { images, COLORS, FONTS, SIZES, icons } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
+import { Formik } from "formik";
+import * as Yup from "yup";
+
+const validationSchema = Yup.object().shape({
+  location: Yup.string().url("Invalid URL").required("Required"),
+});
 
 export default function Playlandlocation() {
   const navigation = useNavigation();
   const [locationLink, setLocationLink] = useState("");
   const dispatch = useDispatch();
+
+  const onSubmit = (values) => {
+    dispatch({ type: "SET_LOCATION", payload: values.location });
+    navigation.navigate("PlaylandDescription");
+  };
 
   return (
     <View style={styles.container}>
@@ -66,28 +77,35 @@ export default function Playlandlocation() {
           </TouchableOpacity>
         </View>
       </View>
-      <TextInput
-        style={styles.textInput}
-        label="Enter the Google Maps location link"
-        value={locationLink}
-        onChangeText={setLocationLink}
-        right={<TextInput.Icon name="information-outline" />}
-        // Add the following props for the guidelines box
-        mode="outlined"
-        dense={true}
-        placeholder="e.g. https://goo.gl/maps/abc123"
-      />
-
-      <Button
-        mode="contained-tonal"
-        icon={"chevron-right"}
-        onPress={() => {
-          dispatch({ type: "SET_LATITUDE", payload: locationLink });
-          navigation.navigate("PlaylandDescription");
-        }}
+      <Formik
+        initialValues={{ location: "" }}
+        onSubmit={onSubmit}
+        validationSchema={validationSchema}
       >
-        <Text style={styles.buttonText}>Next</Text>
-      </Button>
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+        }) => (
+          <>
+            <TextInput
+              label="Location Link"
+              mode="outlined"
+              onChangeText={handleChange("location")}
+              onBlur={handleBlur("location")}
+              value={values.location}
+              error={touched.location && errors.location}
+              style={styles.textInput}
+            />
+            <Button mode="contained" onPress={handleSubmit}>
+              Next
+            </Button>
+          </>
+        )}
+      </Formik>
     </View>
   );
 }
