@@ -22,11 +22,11 @@ const validationSchema = Yup.object().shape({
 
 export default function Playlandlocation() {
   const navigation = useNavigation();
-  const [locationLink, setLocationLink] = useState("");
   const dispatch = useDispatch();
 
   const onSubmit = (values) => {
     dispatch({ type: "SET_LOCATION", payload: values.location });
+    console.log(values.location);
     navigation.navigate("PlaylandDescription");
   };
 

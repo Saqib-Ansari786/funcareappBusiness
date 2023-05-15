@@ -14,6 +14,7 @@ const PlaylandInitialState = {
   time_close: null,
   price: null,
   discount: null,
+  location: null,
 };
 
 export const userReducer = createReducer(userInitialState, {
@@ -37,6 +38,9 @@ export const PlaylandReducer = createReducer(PlaylandInitialState, {
   },
   SET_LONGITUDE: (state, action) => {
     state.Longitude = action.payload;
+  },
+  SET_LOCATION: (state, action) => {
+    state.location = action.payload;
   },
   SET_TIME_OPEN: (state, action) => {
     state.time_open = action.payload;

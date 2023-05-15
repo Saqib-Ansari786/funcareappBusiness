@@ -15,6 +15,7 @@ import { phone, verification } from "../constants/images";
 import { COLORS, FONTS, SIZES } from "../constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
+import { ActivityIndicator } from "react-native";
 
 const SignUpScreen = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -23,11 +24,12 @@ const SignUpScreen = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const recaptchaVerifier = useRef(null);
   const [countryCode, setCountryCode] = useState("+92");
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
   const sendVerificationCode = () => {
+    setIsLoading(true); // start loading
     const phoneProvider = new firebase.auth.PhoneAuthProvider();
-
     phoneProvider
       .verifyPhoneNumber(countryCode + phoneNumber, recaptchaVerifier.current)
       .then((id) => {
@@ -37,11 +39,15 @@ const SignUpScreen = ({ navigation }) => {
       .catch((error) => {
         setErrorMessage("Invalid Phone number! Please Try Again");
         console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false); // end loading
       });
     setPhoneNumber("");
   };
 
   const verifyCode = () => {
+    setIsLoading(true); // start loading
     const credential = firebase.auth.PhoneAuthProvider.credential(
       verificationId,
       verificationCode
@@ -86,6 +92,9 @@ const SignUpScreen = ({ navigation }) => {
       .catch((error) => {
         setErrorMessage("Invalid OTP Code! Please write Right Code...");
         console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false); // end loading
       });
   };
 
@@ -101,7 +110,9 @@ const SignUpScreen = ({ navigation }) => {
         ref={recaptchaVerifier}
         firebaseConfig={firebaseConfig}
       />
-      {!verificationId ? (
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : !verificationId ? (
         <>
           <Image source={phone} style={styles.image} />
           <View

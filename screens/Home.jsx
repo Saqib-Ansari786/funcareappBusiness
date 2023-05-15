@@ -1,5 +1,5 @@
 import { ScrollView, Text, StyleSheet } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "react-native-paper";
 import { COLORS, FONTS, images } from "../constants";
 import { Image } from "react-native";
@@ -8,9 +8,34 @@ import { useSelector } from "react-redux";
 
 export default function Home() {
   const navigation = useNavigation();
-  const { playland_name, description, time_open } = useSelector(
-    (state) => state.playland
-  );
+  const [playlands, setPlaylands] = useState([]);
+  const { userId } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    async function getPlaylands() {
+      try {
+        const response = await fetch(
+          "http://starter-express-api-git-main-salman36.vercel.app/api/auth/user/playland",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              user_firebase_id: userId,
+            }),
+          }
+        );
+        const data = await response.json();
+        setPlaylands(data);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getPlaylands();
+  }, []);
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image source={images.booking} style={styles.image} />

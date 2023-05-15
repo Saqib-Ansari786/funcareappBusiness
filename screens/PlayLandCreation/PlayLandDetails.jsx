@@ -87,11 +87,11 @@ export default function PlaylandDescription() {
           dispatch({ type: "SET_DISCOUNT", payload: values.discount });
           dispatch({ type: "SET_DESCRIPTION", payload: values.description });
           dispatch({
-            type: "SET_START_TIME",
+            type: "SET_TIME_OPEN",
             payload: startTime.toLocaleTimeString(),
           });
           dispatch({
-            type: "SET_END_TIME",
+            type: "SET_TIME_CLOSE",
             payload: endTime.toLocaleTimeString(),
           });
           navigation.navigate("PlaylandImage");
@@ -114,7 +114,7 @@ export default function PlaylandDescription() {
             <TextInput
               mode="outlined"
               label={"Price"}
-              placeholder="Enter your playland price"
+              placeholder="Rs. 1000"
               style={styles.textInput}
               onChangeText={handleChange("price")}
               onBlur={handleBlur("price")}
@@ -127,7 +127,7 @@ export default function PlaylandDescription() {
             <TextInput
               mode="outlined"
               label={"Any Discount"}
-              placeholder="Enter your playland Discount"
+              placeholder="25 %"
               style={styles.textInput}
               onChangeText={handleChange("discount")}
               onBlur={handleBlur("discount")}
@@ -248,5 +248,6 @@ const styles = StyleSheet.create({
   error: {
     color: "red",
     marginLeft: 35,
+    ...FONTS.body4,
   },
 });

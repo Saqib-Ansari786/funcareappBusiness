@@ -18,6 +18,7 @@ import PlaylandDescription from "./screens/PlayLandCreation/PlayLandDetails";
 import PlaylandImage from "./screens/PlayLandCreation/PlaylandImage";
 import EditDetailScreen from "./screens/Editplayland";
 import store from "./store/store";
+import PlaylandConfirmation from "./screens/PlayLandCreation/PlayLandConfirmation";
 
 const theme = {
   ...DefaultTheme,
@@ -62,14 +63,15 @@ export function Main() {
       <NavigationContainer theme={theme}>
         <Stack.Navigator initialRouteName={route}>
           {/* Screens */}
-          {/* <Stack.Screen
-            name="Splash"
-            component={SplashScreen}
+
+          <Stack.Screen
+            name="PlaylandConfirmation"
+            component={PlaylandConfirmation}
             options={{
               title: null,
               headerShown: false,
             }}
-          /> */}
+          />
           <Stack.Screen
             name="Editplayland"
             component={EditDetailScreen}

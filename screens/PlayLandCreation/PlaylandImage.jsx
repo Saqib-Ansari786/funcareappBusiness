@@ -52,24 +52,24 @@ export default function PlaylandImage({ navigation }) {
     };
     console.log(finaldata);
 
-    try {
-      const response = await fetch(
-        "http://starter-express-api-git-main-salman36.vercel.app/api/auth/create/playlanduser",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(finaldata),
-        }
-      );
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   const response = await fetch(
+    //     "http://starter-express-api-git-main-salman36.vercel.app/api/auth/create/playlanduser",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify(finaldata),
+    //     }
+    //   );
+    //   const data = await response.json();
+    //   console.log(data);
+    // } catch (error) {
+    //   console.log(error);
+    // }
 
-    navigation.navigate("Home");
+    navigation.navigate("PlaylandConfirmation");
   }
   return (
     <View style={styles.container}>
