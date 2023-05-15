@@ -1,10 +1,11 @@
-import { ScrollView, Text, StyleSheet } from "react-native";
-import React, { useEffect } from "react";
+import { ScrollView, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-native-paper";
 import { COLORS, FONTS, images } from "../constants";
 import { Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function Home() {
   const navigation = useNavigation();
@@ -36,19 +37,95 @@ export default function Home() {
     getPlaylands();
   }, []);
 
+  const goToManagePlaylands = () => {
+    // navigation.navigate("ManagePlaylands");
+  };
+  const goToManageBookings = () => {
+    // navigation.navigate("ManageBookings");
+  };
+  const goToAnalytics = () => {
+    // navigation.navigate("Analytics");
+  };
+  const goToCustomerFeedback = () => {
+    // navigation.navigate("CustomerFeedback");
+  };
+  const goToAccountSettings = () => {
+    // navigation.navigate("AccountSettings");
+  };
+  const goToNotifications = () => {
+    // navigation.navigate("Notifications");
+  };
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Image source={images.booking} style={styles.image} />
-      <Text style={styles.text}>
-        You have not create any playLand yet. Click the button below to create
-      </Text>
-      <Button
-        mode="contained-tonal"
-        onPress={() => navigation.navigate("PlaylandName")}
-      >
-        <Text style={styles.buttonText}>Click me</Text>
-      </Button>
-    </ScrollView>
+    <>
+      {playlands.length > 0 ? (
+        <View style={styles.container}>
+          <Text style={styles.header}>Dashboard</Text>
+          <View style={styles.metric}>
+            <Text style={styles.metricText}>Bookings: 10</Text>
+          </View>
+          <View style={styles.metric}>
+            <Text style={styles.metricText}>Revenue: $1000</Text>
+          </View>
+          <View style={styles.metric}>
+            <Text style={styles.metricText}>Feedback: 4.5 stars</Text>
+          </View>
+          <TouchableOpacity style={styles.button} onPress={goToManagePlaylands}>
+            <Ionicons name="ios-home-outline" size={30} color="white" />
+            <Text style={styles.buttonText}>Manage Playlands</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={goToManageBookings}>
+            <Ionicons name="ios-calendar-outline" size={30} color="white" />
+            <Text style={styles.buttonText}>Manage Bookings</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={goToAnalytics}>
+            <Ionicons name="ios-analytics-outline" size={30} color="white" />
+            <Text style={styles.buttonText}>Analytics</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={goToCustomerFeedback}
+          >
+            <Ionicons
+              name="ios-chatbox-ellipses-outline"
+              size={30}
+              color="white"
+            />
+            <Text style={styles.buttonText}>Customer Feedback</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={goToAccountSettings}>
+            <Ionicons name="ios-settings-outline" size={30} color="white" />
+            <Text style={styles.buttonText}>Account Settings</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={goToNotifications}>
+            <Ionicons
+              name="ios-notifications-outline"
+              size={30}
+              color="white"
+            />
+            <Text style={styles.buttonText}>Notifications</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={goToHelpAndSupport}>
+            <Ionicons name="ios-help-circle-outline" size={30} color="white" />
+            <Text style={styles.buttonText}>Help & Support</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <ScrollView contentContainerStyle={styles.container}>
+          <Image source={images.booking} style={styles.image} />
+          <Text style={styles.text}>
+            You have not create any playLand yet. Click the button below to
+            create
+          </Text>
+          <Button
+            mode="contained-tonal"
+            onPress={() => navigation.navigate("PlaylandName")}
+          >
+            <Text style={styles.buttonText}>Click me</Text>
+          </Button>
+        </ScrollView>
+      )}
+    </>
   );
 }
 
