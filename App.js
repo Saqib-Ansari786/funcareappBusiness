@@ -19,6 +19,8 @@ import PlaylandImage from "./screens/PlayLandCreation/PlaylandImage";
 import EditDetailScreen from "./screens/Editplayland";
 import store from "./store/store";
 import PlaylandConfirmation from "./screens/PlayLandCreation/PlayLandConfirmation";
+import EditUser from "./screens/EditUser";
+import Helpfaq from "./screens/Helpfaq";
 
 const theme = {
   ...DefaultTheme,
@@ -63,7 +65,22 @@ export function Main() {
       <NavigationContainer theme={theme}>
         <Stack.Navigator initialRouteName={route}>
           {/* Screens */}
-
+          <Stack.Screen
+            name="Helpfaq"
+            component={Helpfaq}
+            options={{
+              title: null,
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="EditUser"
+            component={EditUser}
+            options={{
+              title: null,
+              headerShown: false,
+            }}
+          />
           <Stack.Screen
             name="PlaylandConfirmation"
             component={PlaylandConfirmation}
@@ -170,25 +187,14 @@ export function Main() {
               headerStyle: {
                 backgroundColor: COLORS.white,
               },
-              headerLeft: () => (
-                <TouchableOpacity style={{ marginLeft: SIZES.padding }}>
-                  <Image
-                    source={icons.back}
-                    resizeMode="contain"
-                    style={{
-                      width: 25,
-                      height: 25,
-                    }}
-                  />
-                </TouchableOpacity>
-              ),
+
               headerRight: () => (
                 <TouchableOpacity
                   style={{ marginRight: SIZES.padding }}
-                  onPress={() => console.log("Menu")}
+                  onPress={() => navigation.navigate("User")}
                 >
                   <Image
-                    source={icons.menu}
+                    source={icons.user}
                     resizeMode="contain"
                     style={{
                       width: 25,

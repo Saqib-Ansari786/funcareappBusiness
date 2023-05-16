@@ -1,16 +1,19 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
 import { Avatar, Button, List } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
 import { images } from "../constants";
 
 const UserProfileScreen = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <View style={styles.tab}>
         <Avatar.Image
           style={styles.avatar}
           size={50}
-          source={images.onboardingImage}
+          source={images.skiVilla}
         />
         <Text style={styles.name}>John Doe</Text>
       </View>
@@ -39,7 +42,7 @@ const UserProfileScreen = () => {
       </List.Section>
       <TouchableHighlight
         style={styles.editButton}
-        onPress={() => console.log("Edit button pressed")}
+        onPress={() => navigation.navigate("EditUser")}
       >
         <Text style={styles.buttonText}>Edit</Text>
       </TouchableHighlight>

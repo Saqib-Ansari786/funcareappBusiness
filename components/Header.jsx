@@ -3,8 +3,10 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 import { Image } from "react-native";
 import { icons } from "../constants";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Header() {
+  const navigation = useNavigation();
   return (
     <View
       style={{
@@ -19,7 +21,7 @@ export default function Header() {
       <View style={{ flex: 1 }}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Home");
+            navigation.goBack();
           }}
         >
           <Image

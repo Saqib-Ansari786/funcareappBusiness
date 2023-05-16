@@ -17,6 +17,10 @@ const PlaylandInitialState = {
   location: null,
 };
 
+const landdatainitialState = {
+  landdata: null,
+};
+
 export const userReducer = createReducer(userInitialState, {
   SET_USER_ID: (state, action) => {
     state.userId = action.payload;
@@ -53,5 +57,11 @@ export const PlaylandReducer = createReducer(PlaylandInitialState, {
   },
   SET_DISCOUNT: (state, action) => {
     state.discount = action.payload;
+  },
+});
+
+export const landdataReducer = createReducer(landdatainitialState, {
+  SET_LAND_DATA: (state, action) => {
+    state.landdata = action.payload;
   },
 });

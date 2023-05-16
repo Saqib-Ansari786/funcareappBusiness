@@ -3,9 +3,12 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Avatar, Button } from "react-native-paper";
 import { images } from "../constants";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 const PlaylandScreen = () => {
   const navigation = useNavigation();
+  const { landdata } = useSelector((state) => state.landdata);
+
   return (
     <View style={styles.container}>
       <View style={styles.tab}>
@@ -15,7 +18,7 @@ const PlaylandScreen = () => {
           source={images.playground}
         />
         <View style={styles.nameContainer}>
-          <Text style={styles.name}>The Fun Zone</Text>
+          <Text style={styles.name}>{landdata[0].playland_name}</Text>
           <Button
             style={styles.editButton}
             mode="contained"
@@ -33,31 +36,33 @@ const PlaylandScreen = () => {
         </View>
       </View>
       <ScrollView style={styles.content}>
-        <Text style={styles.description}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-          venenatis, lectus non molestie blandit, purus justo finibus magna,
-          eget lobortis ex sapien ac velit.
-        </Text>
+        <Text style={styles.description}>{landdata[0].discription}</Text>
         <View style={styles.details}>
           <View style={styles.detail}>
             <Text style={styles.detailLabel}>Earnings:</Text>
-            <Text style={styles.detailValue}>$1,000</Text>
+            <Text style={styles.detailValue}>0</Text>
           </View>
           <View style={styles.detail}>
             <Text style={styles.detailLabel}>Timings:</Text>
-            <Text style={styles.detailValue}>10am - 8pm</Text>
+            <Text style={styles.detailValue}>
+              {landdata[0].time_open} - {landdata[0].time_close}
+            </Text>
           </View>
           <View style={styles.detail}>
             <Text style={styles.detailLabel}>Price:</Text>
-            <Text style={styles.detailValue}>$10 per hour</Text>
+            <Text style={styles.detailValue}>
+              ${landdata[0].price} per hour
+            </Text>
           </View>
           <View style={styles.detail}>
             <Text style={styles.detailLabel}>Discount:</Text>
-            <Text style={styles.detailValue}>10% off on weekdays</Text>
+            <Text style={styles.detailValue}>
+              {landdata[0].discount}% off on weekdays
+            </Text>
           </View>
           <View style={styles.detail}>
             <Text style={styles.detailLabel}>Location:</Text>
-            <Text style={styles.detailValue}>123 Main Street</Text>
+            <Text style={styles.detailValue}>{landdata[0].location}</Text>
           </View>
           <View style={styles.detail}>
             <Text style={styles.detailLabel}>Packages:</Text>
