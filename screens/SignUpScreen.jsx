@@ -65,7 +65,7 @@ const SignUpScreen = ({ navigation }) => {
         const data = {
           firebase_id: result.user.uid,
           name: "Salman",
-          email: "salman@gmail.com",
+          email: `salman${Number(result.user.phoneNumber)}@gmail.com`,
           phone: Number(result.user.phoneNumber),
           latitude: 24.8607,
           longitude: 67.0011,
