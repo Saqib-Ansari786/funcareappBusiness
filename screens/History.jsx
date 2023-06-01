@@ -1,28 +1,30 @@
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
-import { FONTS } from "../constants";
-import { useSelector } from "react-redux";
+import { COLORS, FONTS } from "../constants";
+import { useDispatch, useSelector } from "react-redux";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { ActivityIndicator } from "react-native";
 
 export default function History() {
-  const [bookedPlaylands, setbookedPlaylands] = useState([1, 2]);
+  const [bookedPlaylands, setbookedPlaylands] = useState([]);
   const { landdata } = useSelector((state) => state.landdata);
-  // const playlandId = landdata[0]._id;
-  let playlandId = "64633f362f124b47539cc492";
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function getbookedPlaylands() {
       try {
+        setIsLoading(true);
         const response = await fetch(
-          `http://starter-express-api-git-main-salman36.vercel.app/api/auth/booked/playland/${playlandId}`
+          `http://starter-express-api-git-main-salman36.vercel.app/api/auth/booked/playland/${landdata[0]._id}`
         );
         const data = await response.json();
         setbookedPlaylands(data.bookedplayland);
-
-        console.log(data);
+        dispatch({ type: "SET_BOOKING_DATA", payload: data.bookedplayland });
       } catch (error) {
         console.log(error);
       }
+      setIsLoading(false);
     }
     getbookedPlaylands();
   }, []);
@@ -35,10 +37,11 @@ export default function History() {
         style={styles.icon}
       />
       <View style={styles.detailsContainer}>
-        <Text style={styles.playlandName}>The Fun Zone</Text>
+        <Text style={styles.playlandName}>{landdata[0].playland_name}</Text>
         <Text style={styles.bookingStatus}>
           Booking Status: {item.bookingstatus}
         </Text>
+        <Text style={styles.bookingStatus}>Payment Method: {item.method}</Text>
         <Text style={styles.amount}>Amount: ${item.amount}</Text>
       </View>
     </View>
@@ -46,15 +49,23 @@ export default function History() {
 
   return (
     <View style={styles.container}>
-      {bookedPlaylands.length > 0 ? (
-        <FlatList
-          data={bookedPlaylands}
-          renderItem={renderItem}
-          keyExtractor={(item) => item._id}
-          contentContainerStyle={styles.listContainer}
-        />
+      {isLoading ? (
+        <ActivityIndicator size="large" color={COLORS.primary} />
       ) : (
-        <Text style={styles.text}>No history available</Text>
+        <>
+          <Text style={styles.header}>Booking History</Text>
+
+          {bookedPlaylands ? (
+            <FlatList
+              data={bookedPlaylands}
+              renderItem={renderItem}
+              keyExtractor={(item) => item._id}
+              contentContainerStyle={styles.listContainer}
+            />
+          ) : (
+            <Text style={styles.text}>No history available</Text>
+          )}
+        </>
       )}
     </View>
   );
@@ -65,6 +76,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 20,
   },
+  header: {
+    ...FONTS.h1,
+    marginBottom: 20,
+  },
   listContainer: {
     paddingVertical: 10,
   },
@@ -72,6 +87,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
+    marginHorizontal: 10,
     backgroundColor: "#fff",
     padding: 10,
     borderRadius: 10,

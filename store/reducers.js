@@ -21,6 +21,14 @@ const landdatainitialState = {
   landdata: null,
 };
 
+const updateRequestFlag = {
+  userRequest: false,
+};
+
+const bookingdataInitialState = {
+  bookingdata: null,
+};
+
 export const userReducer = createReducer(userInitialState, {
   SET_USER_ID: (state, action) => {
     state.userId = action.payload;
@@ -63,5 +71,17 @@ export const PlaylandReducer = createReducer(PlaylandInitialState, {
 export const landdataReducer = createReducer(landdatainitialState, {
   SET_LAND_DATA: (state, action) => {
     state.landdata = action.payload;
+  },
+});
+
+export const updateRequestReducer = createReducer(updateRequestFlag, {
+  SET_USER_REQUEST: (state, action) => {
+    state.userRequest = action.payload;
+  },
+});
+
+export const bookingdataReducer = createReducer(bookingdataInitialState, {
+  SET_BOOKING_DATA: (state, action) => {
+    state.bookingdata = action.payload;
   },
 });

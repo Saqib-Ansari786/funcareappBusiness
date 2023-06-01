@@ -1,9 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Avatar, Button } from "react-native-paper";
-import { images } from "../constants";
+import { COLORS, FONTS, SIZES, images } from "../constants";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import { TouchableOpacity } from "react-native";
 
 const PlaylandScreen = () => {
   const navigation = useNavigation();
@@ -11,69 +12,100 @@ const PlaylandScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.tab}>
-        <Avatar.Image
-          style={styles.avatar}
-          size={60}
-          source={images.playground}
-        />
-        <View style={styles.nameContainer}>
-          <Text style={styles.name}>{landdata[0].playland_name}</Text>
-          <Button
-            style={styles.editButton}
-            mode="contained"
-            onPress={() =>
-              navigation.navigate("Editplayland", {
-                price: "10",
-                discount: "10",
-                packages:
-                  "Bumper package: 10 Merry-Go-Round in 20$\nSimple package: 2 Merry-Go-Round in 5$",
-              })
-            }
+      {landdata.length > 0 ? (
+        <>
+          <View style={styles.tab}>
+            <Avatar.Image
+              style={styles.avatar}
+              size={60}
+              source={images.playground}
+            />
+            <View style={styles.nameContainer}>
+              <Text style={styles.name}>
+                {landdata && landdata[0].playland_name}
+              </Text>
+              <Button
+                style={styles.editButton}
+                mode="contained"
+                onPress={() =>
+                  navigation.navigate("Editplayland", {
+                    price: "10",
+                    discount: "10",
+                    packages:
+                      "Bumper package: 10 Merry-Go-Round in 20$\nSimple package: 2 Merry-Go-Round in 5$",
+                  })
+                }
+              >
+                Edit
+              </Button>
+            </View>
+          </View>
+          <ScrollView style={styles.content}>
+            <Text style={styles.description}>
+              {landdata && landdata[0].discription}
+            </Text>
+            <View style={styles.details}>
+              <View style={styles.detail}>
+                <Text style={styles.detailLabel}>Earnings:</Text>
+                <Text style={styles.detailValue}>0</Text>
+              </View>
+              <View style={styles.detail}>
+                <Text style={styles.detailLabel}>Timings:</Text>
+                <Text style={styles.detailValue}>
+                  {landdata && landdata[0].time_open} -{" "}
+                  {landdata && landdata[0].time_close}
+                </Text>
+              </View>
+              <View style={styles.detail}>
+                <Text style={styles.detailLabel}>Price:</Text>
+                <Text style={styles.detailValue}>
+                  ${landdata && landdata[0].price} per hour
+                </Text>
+              </View>
+              <View style={styles.detail}>
+                <Text style={styles.detailLabel}>Discount:</Text>
+                <Text style={styles.detailValue}>
+                  {landdata && landdata[0].discount}% off on weekdays
+                </Text>
+              </View>
+              <View style={styles.detail}>
+                <Text style={styles.detailLabel}>Location:</Text>
+                <Text style={styles.detailValue}>
+                  {landdata && landdata[0].location}
+                </Text>
+              </View>
+              <View style={styles.detail}>
+                <Text style={styles.detailLabel}>Packages:</Text>
+                <Text style={styles.detailValue}>
+                  Bumper package: 10 Merry-Go-Round in 20$
+                  {"\n"}
+                  Simple package: 2 Merry-Go-Round in 5$
+                </Text>
+              </View>
+            </View>
+          </ScrollView>
+        </>
+      ) : (
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <Text style={{ textAlign: "center", ...FONTS.h1 }}>
+            You have not added any playland yet
+          </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("PlaylandName")}
+            style={styles.button}
           >
-            Edit
-          </Button>
+            <Text
+              style={{
+                textAlign: "center",
+                ...FONTS.body2,
+                color: COLORS.white,
+              }}
+            >
+              Add Playland
+            </Text>
+          </TouchableOpacity>
         </View>
-      </View>
-      <ScrollView style={styles.content}>
-        <Text style={styles.description}>{landdata[0].discription}</Text>
-        <View style={styles.details}>
-          <View style={styles.detail}>
-            <Text style={styles.detailLabel}>Earnings:</Text>
-            <Text style={styles.detailValue}>0</Text>
-          </View>
-          <View style={styles.detail}>
-            <Text style={styles.detailLabel}>Timings:</Text>
-            <Text style={styles.detailValue}>
-              {landdata[0].time_open} - {landdata[0].time_close}
-            </Text>
-          </View>
-          <View style={styles.detail}>
-            <Text style={styles.detailLabel}>Price:</Text>
-            <Text style={styles.detailValue}>
-              ${landdata[0].price} per hour
-            </Text>
-          </View>
-          <View style={styles.detail}>
-            <Text style={styles.detailLabel}>Discount:</Text>
-            <Text style={styles.detailValue}>
-              {landdata[0].discount}% off on weekdays
-            </Text>
-          </View>
-          <View style={styles.detail}>
-            <Text style={styles.detailLabel}>Location:</Text>
-            <Text style={styles.detailValue}>{landdata[0].location}</Text>
-          </View>
-          <View style={styles.detail}>
-            <Text style={styles.detailLabel}>Packages:</Text>
-            <Text style={styles.detailValue}>
-              Bumper package: 10 Merry-Go-Round in 20$
-              {"\n"}
-              Simple package: 2 Merry-Go-Round in 5$
-            </Text>
-          </View>
-        </View>
-      </ScrollView>
+      )}
     </View>
   );
 };
@@ -142,6 +174,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "right",
     color: "#424242",
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: COLORS.primary,
+    padding: SIZES.radius,
+    margin: SIZES.radius,
+    borderRadius: SIZES.radius,
   },
 });
 

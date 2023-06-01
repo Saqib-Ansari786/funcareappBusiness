@@ -20,11 +20,12 @@ export default function Home() {
   const { userId } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const { bookingdata } = useSelector((state) => state.bookingdata);
 
   useEffect(() => {
-    setIsLoading(true);
     async function getPlaylands() {
       try {
+        setIsLoading(true);
         const response = await fetch(
           `http://starter-express-api-git-main-salman36.vercel.app/api/auth/user/playland/${userId}`
         );
@@ -35,8 +36,8 @@ export default function Home() {
       } catch (error) {
         console.log(error);
       }
+      setIsLoading(false);
     }
-    setIsLoading(false);
     getPlaylands();
   }, []);
 
@@ -57,18 +58,17 @@ export default function Home() {
   return (
     <>
       {isLoading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color={COLORS.primary} />
       ) : playlands.length > 0 ? (
         <ScrollView contentContainerStyle={styles.container}>
           <Text style={styles.header}>Dashboard</Text>
           <View style={styles.metric}>
-            <Text style={styles.metricText}>Bookings: 1</Text>
+            <Text style={styles.metricText}>
+              Bookings: {bookingdata && bookingdata.length}
+            </Text>
           </View>
           <View style={styles.metric}>
             <Text style={styles.metricText}>Revenue: $1000</Text>
-          </View>
-          <View style={styles.metric}>
-            <Text style={styles.metricText}>Feedback: 4.5 stars</Text>
           </View>
           <TouchableOpacity style={styles.button} onPress={goToManagePlaylands}>
             <Ionicons name="ios-home-outline" size={30} color="white" />
@@ -96,12 +96,12 @@ export default function Home() {
             You have not create any playLand yet. Click the button below to
             create
           </Text>
-          <Button
-            mode="contained-tonal"
+          <TouchableOpacity
+            style={styles.addbutton}
             onPress={() => navigation.navigate("PlaylandName")}
           >
-            <Text style={styles.buttonText}>Click me</Text>
-          </Button>
+            <Text style={styles.buttonText}>Click Me</Text>
+          </TouchableOpacity>
         </ScrollView>
       )}
     </>
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    flexGrow: 1,
   },
   text: {
     ...FONTS.body2,
@@ -121,6 +122,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     ...FONTS.h2,
+    color: COLORS.white,
+    marginLeft: 20,
   },
   image: {
     width: "100%",
@@ -150,6 +153,15 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+  },
+  addbutton: {
+    backgroundColor: COLORS.primary,
+    padding: 10,
+    width: "80%",
+    borderRadius: 10,
+    marginVertical: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

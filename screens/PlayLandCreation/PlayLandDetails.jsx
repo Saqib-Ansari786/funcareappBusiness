@@ -11,6 +11,7 @@ import RNDateTimePicker, {
 import { useDispatch } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function PlaylandDescription() {
   const navigation = useNavigation();
@@ -97,8 +98,11 @@ export default function PlaylandDescription() {
           navigation.navigate("PlaylandImage");
         }}
         validationSchema={Yup.object().shape({
-          price: Yup.number().required("Price is required"),
-          discount: Yup.number().required("Discount is required"),
+          price: Yup.number().required("Price is required").min(0).max(10000),
+          discount: Yup.number()
+            .required("Discount is required")
+            .min(0)
+            .max(100),
           description: Yup.string().required("Description is required"),
         })}
       >
@@ -111,29 +115,37 @@ export default function PlaylandDescription() {
           touched,
         }) => (
           <View>
-            <TextInput
-              mode="outlined"
-              label={"Price"}
-              placeholder="Rs. 1000"
-              style={styles.textInput}
-              onChangeText={handleChange("price")}
-              onBlur={handleBlur("price")}
-              value={values.price}
-              error={errors.price && touched.price}
-            />
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Ionicons name="pricetags-outline" size={24} color="black" />
+              <TextInput
+                mode="outlined"
+                label={"Price"}
+                placeholder="Enter Price"
+                style={styles.textInput}
+                onChangeText={handleChange("price")}
+                onBlur={handleBlur("price")}
+                value={values.price}
+                error={errors.price && touched.price}
+                keyboardType="numeric"
+              />
+            </View>
             {errors.price && touched.price && (
               <Text style={styles.error}>{errors.price}</Text>
             )}
-            <TextInput
-              mode="outlined"
-              label={"Any Discount"}
-              placeholder="25 %"
-              style={styles.textInput}
-              onChangeText={handleChange("discount")}
-              onBlur={handleBlur("discount")}
-              value={values.discount}
-              error={errors.discount && touched.discount}
-            />
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Ionicons name="pricetags-outline" size={24} color="black" />
+              <TextInput
+                mode="outlined"
+                label={"Any Discount"}
+                placeholder="Enter Discount"
+                style={styles.textInput}
+                onChangeText={handleChange("discount")}
+                onBlur={handleBlur("discount")}
+                value={values.discount}
+                error={errors.discount && touched.discount}
+                keyboardType="numeric"
+              />
+            </View>
             {errors.discount && touched.discount && (
               <Text style={styles.error}>{errors.discount}</Text>
             )}
@@ -143,15 +155,18 @@ export default function PlaylandDescription() {
             >
               Set Start Time:
             </Text>
-            <Button
-              mode="outlined"
-              onPress={handleStart}
-              style={styles.textInput}
-            >
-              <Text style={styles.buttonText}>
-                {startTime && startTime.toLocaleTimeString()}
-              </Text>
-            </Button>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Ionicons name="time-outline" size={24} color="black" />
+              <Button
+                mode="outlined"
+                onPress={handleStart}
+                style={styles.textInput}
+              >
+                <Text style={styles.buttonText}>
+                  {startTime && startTime.toLocaleTimeString()}
+                </Text>
+              </Button>
+            </View>
             {showStartTimePicker && (
               <RNDateTimePicker
                 testID="timePicker"
@@ -170,15 +185,18 @@ export default function PlaylandDescription() {
             >
               Set End Time:
             </Text>
-            <Button
-              mode="outlined"
-              onPress={handleEnd}
-              style={styles.textInput}
-            >
-              <Text style={styles.buttonText}>
-                {endTime && endTime.toLocaleTimeString()}
-              </Text>
-            </Button>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Ionicons name="time-outline" size={24} color="black" />
+              <Button
+                mode="outlined"
+                onPress={handleEnd}
+                style={styles.textInput}
+              >
+                <Text style={styles.buttonText}>
+                  {endTime && endTime.toLocaleTimeString()}
+                </Text>
+              </Button>
+            </View>
             {showEndTimePicker && (
               <RNDateTimePicker
                 testID="timePicker"
@@ -192,18 +210,21 @@ export default function PlaylandDescription() {
                 }}
               />
             )}
-            <TextInput
-              mode="outlined"
-              label={"Description"}
-              placeholder="Enter your playland Description"
-              style={[styles.textInput, { height: SIZES.height * 0.2 }]}
-              multiline
-              numberOfLines={4}
-              onChangeText={handleChange("description")}
-              onBlur={handleBlur("description")}
-              value={values.description}
-              error={errors.description && touched.description}
-            />
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Ionicons name="create-outline" size={24} color="black" />
+              <TextInput
+                mode="outlined"
+                label={"Description"}
+                placeholder="Enter your playland Description"
+                style={[styles.textInput, { height: SIZES.height * 0.2 }]}
+                multiline
+                numberOfLines={4}
+                onChangeText={handleChange("description")}
+                onBlur={handleBlur("description")}
+                value={values.description}
+                error={errors.description && touched.description}
+              />
+            </View>
             {errors.description && touched.description && (
               <Text style={styles.error}>{errors.description}</Text>
             )}
@@ -241,7 +262,7 @@ const styles = StyleSheet.create({
   },
 
   textInput: {
-    height: SIZES.height * 0.09,
+    height: SIZES.height * 0.07,
     width: SIZES.width * 0.8,
     margin: SIZES.radius,
   },

@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import React from "react";
 import { Button, TextInput as PaperTextInput } from "react-native-paper";
 import { Image } from "react-native";
@@ -7,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
@@ -45,7 +52,7 @@ export default function PlaylandName() {
     navigation.navigate("Playlandlocation");
   };
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Image source={images.name} style={styles.image} resizeMode="stretch" />
 
       <View
@@ -74,22 +81,6 @@ export default function PlaylandName() {
             />
           </TouchableOpacity>
         </View>
-        <View style={{ flex: 1, alignItems: "flex-end" }}>
-          <TouchableOpacity
-            onPress={() => {
-              console.log("Menu on pressed");
-            }}
-          >
-            <Image
-              source={icons.menu}
-              resizeMode="cover"
-              style={{
-                width: 30,
-                height: 30,
-              }}
-            />
-          </TouchableOpacity>
-        </View>
       </View>
       <Formik
         initialValues={initialValues}
@@ -105,22 +96,26 @@ export default function PlaylandName() {
           touched,
         }) => (
           <>
-            <TextInput
-              label="Playland Name"
-              mode="outlined"
-              onChangeText={handleChange("name")}
-              value={values.name}
-              error={touched.name && errors.name}
-              touched={touched.name}
-              onBlur={handleBlur("name")}
-            />
-            <Button mode="contained" onPress={handleSubmit}>
-              Next
-            </Button>
+            <Text style={styles.text}>What is your Playland Name?</Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome5 name="user-circle" size={34} color="grey" />
+              <TextInput
+                label="Playland Name"
+                mode="outlined"
+                onChangeText={handleChange("name")}
+                value={values.name}
+                error={touched.name && errors.name}
+                touched={touched.name}
+                onBlur={handleBlur("name")}
+              />
+            </View>
+            <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+              <Text style={styles.buttonText}>Next</Text>
+            </TouchableOpacity>
           </>
         )}
       </Formik>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -135,6 +130,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     ...FONTS.h2,
+    color: COLORS.white,
+    letterSpacing: 1,
   },
   image: {
     width: "100%",
@@ -143,8 +140,16 @@ const styles = StyleSheet.create({
   },
 
   textInput: {
-    height: SIZES.height * 0.09,
+    height: SIZES.height * 0.06,
     width: SIZES.width * 0.8,
     margin: SIZES.radius,
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: COLORS.primary,
+    padding: SIZES.radius * 0.7,
+    margin: SIZES.radius,
+    borderRadius: SIZES.radius,
+    width: SIZES.width * 0.4,
   },
 });

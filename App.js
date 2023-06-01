@@ -63,7 +63,34 @@ export function Main() {
   return (
     <PaperProvider>
       <NavigationContainer theme={theme}>
-        <Stack.Navigator initialRouteName={route}>
+        <Stack.Navigator
+          initialRouteName={route}
+          screenOptions={() => ({
+            headerTitle: () => (
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "100%",
+                }}
+              >
+                <Image
+                  source={icons.main}
+                  resizeMode="cover"
+                  style={{
+                    width: 200,
+                    height: 200,
+                  }}
+                />
+              </View>
+            ),
+            headerTitleAlign: "center",
+            headerStyle: {
+              backgroundColor: COLORS.black,
+            },
+            headerTintColor: COLORS.white,
+          })}
+        >
           {/* Screens */}
           <Stack.Screen
             name="Helpfaq"
@@ -153,12 +180,9 @@ export function Main() {
           <Stack.Screen
             name="Signup"
             component={SignUpScreen}
-            options={{
-              title: null,
-              headerStyle: {
-                backgroundColor: COLORS.white,
-              },
-            }}
+            options={() => ({
+              headerLeft: null,
+            })}
           />
 
           {/* <Stack.Screen
@@ -183,45 +207,7 @@ export function Main() {
             name="Home"
             component={Tabs}
             options={{
-              title: null,
-              headerStyle: {
-                backgroundColor: COLORS.white,
-              },
-
-              headerRight: () => (
-                <TouchableOpacity
-                  style={{ marginRight: SIZES.padding }}
-                  onPress={() => navigation.navigate("User")}
-                >
-                  <Image
-                    source={icons.user}
-                    resizeMode="contain"
-                    style={{
-                      width: 25,
-                      height: 25,
-                    }}
-                  />
-                </TouchableOpacity>
-              ),
-              headerTitle: () => (
-                <View
-                  style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    height: "100%",
-                  }}
-                >
-                  <Image
-                    source={icons.main}
-                    resizeMode="cover"
-                    style={{
-                      width: 200,
-                      height: 200,
-                    }}
-                  />
-                </View>
-              ),
-              headerTitleAlign: "center",
+              headerLeft: null,
             }}
           />
         </Stack.Navigator>
