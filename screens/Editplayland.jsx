@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TextInput,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 import { Button } from "react-native-paper";
 import { SIZES, images } from "../constants";
@@ -52,7 +53,7 @@ const EditDetailScreen = ({ route, navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Header />
       <Text style={styles.heading}>Edit Details</Text>
       <View style={styles.inputContainer}>
@@ -80,6 +81,7 @@ const EditDetailScreen = ({ route, navigation }) => {
           onChangeText={(text) => setPrice(text)}
           placeholder="Price"
           placeholderTextColor="#888"
+          keyboardType="numeric"
         />
       </View>
 
@@ -98,6 +100,7 @@ const EditDetailScreen = ({ route, navigation }) => {
           onChangeText={(text) => setDiscount(text)}
           placeholder="Discount"
           placeholderTextColor="#888"
+          keyboardType="numeric"
         />
       </View>
 
@@ -120,15 +123,15 @@ const EditDetailScreen = ({ route, navigation }) => {
           Save Changes
         </Button>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#fff",
     padding: 20,
+    flexGrow: 1,
   },
   heading: {
     fontSize: 24,
