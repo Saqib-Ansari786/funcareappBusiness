@@ -29,10 +29,9 @@ const PlaylandScreen = () => {
                 mode="contained"
                 onPress={() =>
                   navigation.navigate("Editplayland", {
-                    price: "10",
-                    discount: "10",
-                    packages:
-                      "Bumper package: 10 Merry-Go-Round in 20$\nSimple package: 2 Merry-Go-Round in 5$",
+                    price: landdata[0].price,
+                    discount: landdata[0].discount,
+                    discription: landdata[0].discription,
                   })
                 }
               >
@@ -41,9 +40,7 @@ const PlaylandScreen = () => {
             </View>
           </View>
           <ScrollView style={styles.content}>
-            <Text style={styles.description}>
-              {landdata && landdata[0].discription}
-            </Text>
+            <Text style={styles.description}>{landdata[0].discription}</Text>
             <View style={styles.details}>
               <View style={styles.detail}>
                 <Text style={styles.detailLabel}>Earnings:</Text>
@@ -52,27 +49,24 @@ const PlaylandScreen = () => {
               <View style={styles.detail}>
                 <Text style={styles.detailLabel}>Timings:</Text>
                 <Text style={styles.detailValue}>
-                  {landdata && landdata[0].time_open} -{" "}
-                  {landdata && landdata[0].time_close}
+                  {landdata[0].time_open} - {landdata[0].time_close}
                 </Text>
               </View>
               <View style={styles.detail}>
                 <Text style={styles.detailLabel}>Price:</Text>
                 <Text style={styles.detailValue}>
-                  ${landdata && landdata[0].price} per hour
+                  ${landdata[0].price} per hour
                 </Text>
               </View>
               <View style={styles.detail}>
                 <Text style={styles.detailLabel}>Discount:</Text>
                 <Text style={styles.detailValue}>
-                  {landdata && landdata[0].discount}% off on weekdays
+                  {landdata[0].discount}% off on weekdays
                 </Text>
               </View>
               <View style={styles.detail}>
                 <Text style={styles.detailLabel}>Location:</Text>
-                <Text style={styles.detailValue}>
-                  {landdata && landdata[0].location}
-                </Text>
+                <Text style={styles.detailValue}>{landdata[0].location}</Text>
               </View>
               <View style={styles.detail}>
                 <Text style={styles.detailLabel}>Packages:</Text>

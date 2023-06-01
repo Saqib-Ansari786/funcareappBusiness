@@ -1,9 +1,9 @@
-import React from "react";
-import { Image } from "react-native";
+import React, { useState } from "react";
+import { ActivityIndicator, Image } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { View, StyleSheet } from "react-native";
 import { TextInput, Button, Text } from "react-native-paper";
-import { icons } from "../../constants";
+import { COLORS, SIZES, icons } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
@@ -11,8 +11,10 @@ const PlaylandConfirmation = () => {
   const navigation = useNavigation();
   const playland = useSelector((state) => state.playland);
   const userID = useSelector((state) => state.user.userId);
+  const [isLoading, setIsLoading] = useState(false);
   async function createPlayland() {
     try {
+      setIsLoading(true);
       const response = await fetch(
         "http://starter-express-api-git-main-salman36.vercel.app/api/auth/create/playlanduser",
         {
@@ -35,6 +37,7 @@ const PlaylandConfirmation = () => {
       );
       const data = await response.json();
       console.log(data);
+      setIsLoading(false);
       navigation.navigate("Home");
     } catch (error) {
       console.log(error);
@@ -61,22 +64,6 @@ const PlaylandConfirmation = () => {
           >
             <Image
               source={icons.back}
-              resizeMode="cover"
-              style={{
-                width: 30,
-                height: 30,
-              }}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={{ flex: 1, alignItems: "flex-end" }}>
-          <TouchableOpacity
-            onPress={() => {
-              console.log("Menu on pressed");
-            }}
-          >
-            <Image
-              source={icons.menu}
               resizeMode="cover"
               style={{
                 width: 30,
@@ -130,9 +117,13 @@ const PlaylandConfirmation = () => {
         editable={false}
         style={styles.input}
       />
-      <Button mode="contained" style={styles.button} onPress={createPlayland}>
-        Submit
-      </Button>
+      {isLoading ? (
+        <ActivityIndicator size="large" color={COLORS.primary} />
+      ) : (
+        <Button mode="contained" style={styles.button} onPress={createPlayland}>
+          Submit
+        </Button>
+      )}
     </View>
   );
 };
@@ -153,7 +144,13 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   button: {
-    marginVertical: 16,
+    alignItems: "center",
+    backgroundColor: COLORS.primary,
+    padding: SIZES.radius * 0.4,
+    margin: SIZES.radius,
+    borderRadius: SIZES.radius,
+    width: SIZES.width * 0.5,
+    alignSelf: "center",
   },
 });
 

@@ -23,6 +23,8 @@ const landdatainitialState = {
 
 const updateRequestFlag = {
   userRequest: false,
+  playlandcreate: false,
+  playlandupdate: false,
 };
 
 const bookingdataInitialState = {
@@ -77,6 +79,12 @@ export const landdataReducer = createReducer(landdatainitialState, {
 export const updateRequestReducer = createReducer(updateRequestFlag, {
   SET_USER_REQUEST: (state, action) => {
     state.userRequest = action.payload;
+  },
+  SET_PLAYLAND_CREATE: (state, action) => {
+    state.playlandcreate = action.payload;
+  },
+  SET_PLAYLAND_UPDATE: (state, action) => {
+    state.playlandupdate = action.payload;
   },
 });
 

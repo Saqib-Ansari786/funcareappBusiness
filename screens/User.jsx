@@ -1,8 +1,14 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
+import React, { useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableHighlight,
+  ActivityIndicator,
+} from "react-native";
 import { Avatar, Button, List } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-import { images } from "../constants";
+import { COLORS, images } from "../constants";
 import { useDispatch, useSelector } from "react-redux";
 
 const UserProfileScreen = () => {
@@ -11,25 +17,27 @@ const UserProfileScreen = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   const { userRequest } = useSelector((state) => state.request);
   const dispatch = useDispatch();
+  const { userId } = useSelector((state) => state.user);
 
-  // useEffect(() => {
-  //   async function fetchUser() {
-  //     try {
-  //       setIsLoading(true);
-  //       const response = await fetch(
-  //         `http://starter-express-api-git-main-salman36.vercel.app/api/auth/user/record/${userId}`
-  //       );
-  //       const responseData = await response.json();
-  //       setUserData(responseData.userRecord[0]);
-  //       dispatch({ type: "SET_USER_REQUEST", payload: false });
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //     setIsLoading(false);
-  //   }
-  //   // Fetch or update data here
-  //   fetchUser();
-  // }, [userRequest]);
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        setIsLoading(true);
+        const response = await fetch(
+          `http://starter-express-api-git-main-salman36.vercel.app/api/auth/businessuser/record/${userId}`
+        );
+        const responseData = await response.json();
+        console.log(responseData);
+        setUserData(responseData.BusinessUserRecord[0]);
+        dispatch({ type: "SET_USER_REQUEST", payload: false });
+      } catch (error) {
+        console.error(error);
+      }
+      setIsLoading(false);
+    }
+    // Fetch or update data here
+    fetchUser();
+  }, [userRequest]);
 
   return (
     <View style={styles.container}>
@@ -41,20 +49,20 @@ const UserProfileScreen = () => {
             <Avatar.Image
               style={styles.avatar}
               size={50}
-              source={images.skiVilla}
+              source={images.onboardingImage}
             />
-            <Text style={styles.name}>John Doe</Text>
+            <Text style={styles.name}>{userData.name}</Text>
           </View>
           <List.Section>
             <List.Subheader>Profile Details</List.Subheader>
             <List.Item
               title="Phone Number"
-              description="555-1234"
+              description={userData.phone}
               left={() => <List.Icon icon="phone" />}
             />
             <List.Item
-              title="Playland Name"
-              description="The Fun Zone"
+              title="Email Address"
+              description={userData.email}
               left={() => <List.Icon icon="home" />}
             />
             <List.Item
@@ -70,7 +78,7 @@ const UserProfileScreen = () => {
           </List.Section>
           <TouchableHighlight
             style={styles.editButton}
-            onPress={() => navigation.navigate("EditUser")}
+            onPress={() => navigation.navigate("EditUser", { userData })}
           >
             <Text style={styles.buttonText}>Edit</Text>
           </TouchableHighlight>

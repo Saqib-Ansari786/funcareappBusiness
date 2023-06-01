@@ -5,19 +5,58 @@ import { AntDesign } from "@expo/vector-icons";
 import { images } from "../constants";
 import Header from "../components/Header";
 import { useNavigation } from "@react-navigation/native";
+import { ActivityIndicator } from "react-native";
+import { ScrollView } from "react-native";
+import { useDispatch } from "react-redux";
 
-const EditUser = () => {
+const EditUser = ({ route }) => {
+  const { userData } = route.params;
   const navigation = useNavigation();
+  const [name, setName] = React.useState(userData.name);
+  const [email, setEmail] = React.useState(userData.email);
+  const [phone, setPhone] = React.useState(userData.phone.toString());
+  const [isLoading, setIsLoading] = React.useState(false);
+  const dispatch = useDispatch();
+
+  const handleSubmit = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `http://starter-express-api-git-main-salman36.vercel.app/api/auth/businessuser`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: name,
+            email: email,
+            phone: phone,
+            firebase_id: userData.firebase_id,
+          }),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+      dispatch({ type: "SET_USER_REQUEST", payload: true });
+      setIsLoading(false);
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Header />
+      <Text style={styles.title}>Edit Profile</Text>
       <View style={styles.tab}>
         <Avatar.Image
           style={styles.avatar}
           size={50}
           source={images.onboardingImage}
         />
-        <Text style={styles.name}>John Doe</Text>
+        <Text style={styles.name}>{userData.name}</Text>
       </View>
       <View style={styles.formContainer}>
         <View style={styles.inputContainer}>
@@ -27,6 +66,8 @@ const EditUser = () => {
             mode="outlined"
             style={styles.input}
             placeholder="Enter your username"
+            value={name}
+            onChangeText={(text) => setName(text)}
           />
         </View>
         <View style={styles.inputContainer}>
@@ -36,39 +77,49 @@ const EditUser = () => {
             mode="outlined"
             style={styles.input}
             placeholder="Enter your email"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
           />
         </View>
         <View style={styles.inputContainer}>
-          <AntDesign name="lock" size={20} style={styles.inputIcon} />
+          <AntDesign name="phone" size={20} style={styles.inputIcon} />
           <TextInput
-            label="Password"
+            label="Phone Number"
             mode="outlined"
             style={styles.input}
-            placeholder="Enter your password"
-            secureTextEntry
+            placeholder="Enter your Phone Number"
+            value={phone}
+            editable={false}
           />
         </View>
-        <TouchableOpacity
-          style={styles.saveButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Text style={styles.buttonText}>Save</Text>
-        </TouchableOpacity>
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#000" />
+        ) : (
+          <TouchableOpacity style={styles.saveButton} onPress={handleSubmit}>
+            <Text style={styles.buttonText}>Save</Text>
+          </TouchableOpacity>
+        )}
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#fff",
     padding: 20,
+    flexGrow: 1,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginTop: 80,
+    marginBottom: 20,
   },
   tab: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 120,
+    marginTop: 40,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

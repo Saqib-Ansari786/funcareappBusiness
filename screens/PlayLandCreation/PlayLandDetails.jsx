@@ -162,7 +162,7 @@ export default function PlaylandDescription() {
                 onPress={handleStart}
                 style={styles.textInput}
               >
-                <Text style={styles.buttonText}>
+                <Text style={{ ...FONTS.body2 }}>
                   {startTime && startTime.toLocaleTimeString()}
                 </Text>
               </Button>
@@ -192,7 +192,7 @@ export default function PlaylandDescription() {
                 onPress={handleEnd}
                 style={styles.textInput}
               >
-                <Text style={styles.buttonText}>
+                <Text style={{ ...FONTS.body2 }}>
                   {endTime && endTime.toLocaleTimeString()}
                 </Text>
               </Button>
@@ -228,14 +228,9 @@ export default function PlaylandDescription() {
             {errors.description && touched.description && (
               <Text style={styles.error}>{errors.description}</Text>
             )}
-
-            <Button
-              mode="contained-tonal"
-              icon={"chevron-right"}
-              onPress={handleSubmit}
-            >
-              <Text style={styles.buttonText}>Submit</Text>
-            </Button>
+            <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+              <Text style={styles.buttonText}>Next</Text>
+            </TouchableOpacity>
           </View>
         )}
       </Formik>
@@ -254,6 +249,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     ...FONTS.h2,
+    color: COLORS.white,
+    letterSpacing: 1,
   },
   image: {
     width: "100%",
@@ -270,5 +267,14 @@ const styles = StyleSheet.create({
     color: "red",
     marginLeft: 35,
     ...FONTS.body4,
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: COLORS.primary,
+    padding: SIZES.radius * 0.7,
+    margin: SIZES.radius,
+    borderRadius: SIZES.radius,
+    width: SIZES.width * 0.6,
+    alignSelf: "center",
   },
 });

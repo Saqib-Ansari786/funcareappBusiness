@@ -21,6 +21,9 @@ export default function Home() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const { bookingdata } = useSelector((state) => state.bookingdata);
+  const { playlandcreate, playlandupdate } = useSelector(
+    (state) => state.request
+  );
 
   useEffect(() => {
     async function getPlaylands() {
@@ -32,6 +35,8 @@ export default function Home() {
         const data = await response.json();
         setPlaylands(data.userPlayland);
         dispatch({ type: "SET_LAND_DATA", payload: data.userPlayland });
+        dispatch({ type: "SET_PLAYLAND_CREATE", payload: false });
+        dispatch({ type: "SET_PLAYLAND_UPDATE", payload: false });
         console.log(data);
       } catch (error) {
         console.log(error);
@@ -39,7 +44,7 @@ export default function Home() {
       setIsLoading(false);
     }
     getPlaylands();
-  }, []);
+  }, [playlandcreate, playlandupdate]);
 
   const goToManagePlaylands = () => {
     navigation.navigate("MyPlayLands");
@@ -70,20 +75,6 @@ export default function Home() {
           <View style={styles.metric}>
             <Text style={styles.metricText}>Revenue: $1000</Text>
           </View>
-          <TouchableOpacity style={styles.button} onPress={goToManagePlaylands}>
-            <Ionicons name="ios-home-outline" size={30} color="white" />
-            <Text style={styles.buttonText}>Manage Playlands</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={goToManageBookings}>
-            <Ionicons name="ios-calendar-outline" size={30} color="white" />
-            <Text style={styles.buttonText}>Manage Bookings</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.button} onPress={goToAccountSettings}>
-            <Ionicons name="ios-settings-outline" size={30} color="white" />
-            <Text style={styles.buttonText}>Account Settings</Text>
-          </TouchableOpacity>
-
           <TouchableOpacity style={styles.button} onPress={goToHelpAndSupport}>
             <Ionicons name="ios-help-circle-outline" size={30} color="white" />
             <Text style={styles.buttonText}>Help & Support</Text>
@@ -112,7 +103,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
     flexGrow: 1,
   },
   text: {
