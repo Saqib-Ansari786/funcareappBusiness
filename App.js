@@ -21,6 +21,7 @@ import store from "./store/store";
 import PlaylandConfirmation from "./screens/PlayLandCreation/PlayLandConfirmation";
 import EditUser from "./screens/EditUser";
 import Helpfaq from "./screens/Helpfaq";
+import Onboarding3 from "./screens/Onboarding/Onboarding3";
 
 const theme = {
   ...DefaultTheme,
@@ -31,7 +32,7 @@ const theme = {
 };
 
 export function Main() {
-  const [route, setRoute] = useState("onboarding1");
+  const [route, setRoute] = useState("Onboarding3");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -163,8 +164,9 @@ export function Main() {
             options={{
               title: null,
               headerStyle: {
-                backgroundColor: COLORS.white,
+                backgroundColor: COLORS.black,
               },
+              headerLeft: null,
             }}
           />
           <Stack.Screen
@@ -173,8 +175,17 @@ export function Main() {
             options={{
               title: null,
               headerStyle: {
-                backgroundColor: COLORS.white,
+                backgroundColor: COLORS.black,
               },
+              headerLeft: null,
+            }}
+          />
+          <Stack.Screen
+            name="Onboarding3"
+            component={Onboarding3}
+            options={{
+              title: null,
+              headerShown: false,
             }}
           />
           <Stack.Screen

@@ -17,8 +17,12 @@ const PlaylandScreen = () => {
           <View style={styles.tab}>
             <Avatar.Image
               style={styles.avatar}
-              size={60}
-              source={images.playground}
+              size={50}
+              source={
+                landdata[0].path_url
+                  ? { uri: landdata[0].path_url }
+                  : images.avatar
+              }
             />
             <View style={styles.nameContainer}>
               <Text style={styles.name}>
@@ -117,6 +121,7 @@ const styles = StyleSheet.create({
   },
   avatar: {
     marginRight: 5,
+    borderRadius: 30,
   },
   nameContainer: {
     flex: 1,
@@ -125,7 +130,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   name: {
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: "bold",
     color: "#000",
   },

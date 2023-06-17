@@ -72,9 +72,7 @@ export default function Home() {
               Bookings: {bookingdata && bookingdata.length}
             </Text>
           </View>
-          <View style={styles.metric}>
-            <Text style={styles.metricText}>Revenue: $1000</Text>
-          </View>
+
           <TouchableOpacity style={styles.button} onPress={goToHelpAndSupport}>
             <Ionicons name="ios-help-circle-outline" size={30} color="white" />
             <Text style={styles.buttonText}>Help & Support</Text>

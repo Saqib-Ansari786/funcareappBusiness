@@ -5,13 +5,14 @@ import { View, StyleSheet } from "react-native";
 import { TextInput, Button, Text } from "react-native-paper";
 import { COLORS, SIZES, icons } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const PlaylandConfirmation = () => {
   const navigation = useNavigation();
   const playland = useSelector((state) => state.playland);
   const userID = useSelector((state) => state.user.userId);
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
   async function createPlayland() {
     try {
       setIsLoading(true);
@@ -37,6 +38,7 @@ const PlaylandConfirmation = () => {
       );
       const data = await response.json();
       console.log(data);
+      dispatch({ type: "SET_PLAYLAND_CREATE", payload: true });
       setIsLoading(false);
       navigation.navigate("Home");
     } catch (error) {

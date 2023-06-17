@@ -69,8 +69,8 @@ const EditDetailScreen = ({ route, navigation }) => {
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Price:</Text>
-        <Feather
-          name="dollar-sign"
+        <MaterialIcons
+          name="local-offer"
           size={24}
           color="#888"
           style={styles.icon}

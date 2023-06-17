@@ -17,11 +17,9 @@ export default function PlaylandDescription() {
   const navigation = useNavigation();
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [discount, setDiscount] = useState("");
   const [showStartTimePicker, setShowStartTimePicker] = useState(false);
   const [showEndTimePicker, setShowEndTimePicker] = useState(false);
+  const [timeError, setTimeError] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -55,22 +53,6 @@ export default function PlaylandDescription() {
           >
             <Image
               source={icons.back}
-              resizeMode="cover"
-              style={{
-                width: 30,
-                height: 30,
-              }}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={{ flex: 1, alignItems: "flex-end" }}>
-          <TouchableOpacity
-            onPress={() => {
-              console.log("Menu on pressed");
-            }}
-          >
-            <Image
-              source={icons.menu}
               resizeMode="cover"
               style={{
                 width: 30,
@@ -162,9 +144,15 @@ export default function PlaylandDescription() {
                 onPress={handleStart}
                 style={styles.textInput}
               >
-                <Text style={{ ...FONTS.body2 }}>
-                  {startTime && startTime.toLocaleTimeString()}
-                </Text>
+                {timeError ? (
+                  <Text style={styles.error}>
+                    Please select time between 10:00 AM to 10:00 PM
+                  </Text>
+                ) : (
+                  <Text style={{ ...FONTS.body2 }}>
+                    {startTime && startTime.toLocaleTimeString()}
+                  </Text>
+                )}
               </Button>
             </View>
             {showStartTimePicker && (
@@ -175,8 +163,25 @@ export default function PlaylandDescription() {
                 is24Hour={true}
                 display="default"
                 onChange={(event, selectedDate) => {
-                  setShowStartTimePicker(false);
-                  setStartTime(selectedDate);
+                  if (selectedDate) {
+                    const selectedTime = new Date(selectedDate);
+                    const morningTime = new Date(selectedDate);
+                    morningTime.setHours(10, 0, 0, 0);
+                    const eveningTime = new Date(selectedDate);
+                    eveningTime.setHours(22, 0, 0, 0);
+
+                    if (
+                      selectedTime >= morningTime &&
+                      selectedTime <= eveningTime
+                    ) {
+                      setShowStartTimePicker(false);
+                      setStartTime(selectedDate);
+                      setTimeError(false);
+                    } else {
+                      // Display an error message or handle the invalid time selection
+                      setTimeError(true);
+                    }
+                  }
                 }}
               />
             )}
@@ -192,9 +197,15 @@ export default function PlaylandDescription() {
                 onPress={handleEnd}
                 style={styles.textInput}
               >
-                <Text style={{ ...FONTS.body2 }}>
-                  {endTime && endTime.toLocaleTimeString()}
-                </Text>
+                {timeError ? (
+                  <Text style={styles.error}>
+                    Please select time between 10:00 AM to 10:00 PM
+                  </Text>
+                ) : (
+                  <Text style={{ ...FONTS.body2 }}>
+                    {endTime && endTime.toLocaleTimeString()}
+                  </Text>
+                )}
               </Button>
             </View>
             {showEndTimePicker && (
@@ -205,8 +216,25 @@ export default function PlaylandDescription() {
                 is24Hour={true}
                 display="default"
                 onChange={(event, selectedDate) => {
-                  setShowEndTimePicker(false);
-                  setEndTime(selectedDate);
+                  if (selectedDate) {
+                    const selectedTime = new Date(selectedDate);
+                    const morningTime = new Date(selectedDate);
+                    morningTime.setHours(10, 0, 0, 0);
+                    const eveningTime = new Date(selectedDate);
+                    eveningTime.setHours(22, 0, 0, 0);
+
+                    if (
+                      selectedTime >= morningTime &&
+                      selectedTime <= eveningTime
+                    ) {
+                      setShowEndTimePicker(false);
+                      setEndTime(selectedDate);
+                      setTimeError(false);
+                    } else {
+                      // Display an error message or handle the invalid time selection
+                      setTimeError(true);
+                    }
+                  }
                 }}
               />
             )}

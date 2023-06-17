@@ -192,7 +192,9 @@ const SignUpScreen = ({ navigation }) => {
           </TouchableOpacity>
         </>
       )}
-      {errorMessage && <Text style={{ color: "red" }}>{errorMessage}</Text>}
+      {errorMessage && (
+        <Text style={{ color: "red", margin: SIZES.font }}>{errorMessage}</Text>
+      )}
     </ScrollView>
   );
 };
