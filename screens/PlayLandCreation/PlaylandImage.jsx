@@ -45,12 +45,32 @@ export default function PlaylandImage({ navigation }) {
   };
 
   async function handleSave() {
+    try {
+      const finalImage = await convertToBase64(avatarUrl);
+      console.log(finalImage);
+    } catch (error) {
+      console.log(error);
+    }
+
     dispatch({ type: "SET_IMAGE", payload: avatarUrl });
     const finaldata = {
       ...playLandData,
       image: avatarUrl,
     };
     console.log(finaldata);
+
+    const convertToBase64 = async (uri) => {
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          resolve(reader.result);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    };
 
     // try {
     //   const response = await fetch(

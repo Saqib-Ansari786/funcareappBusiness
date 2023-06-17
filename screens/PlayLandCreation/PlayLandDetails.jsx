@@ -80,7 +80,7 @@ export default function PlaylandDescription() {
           navigation.navigate("PlaylandImage");
         }}
         validationSchema={Yup.object().shape({
-          price: Yup.number().required("Price is required").min(0).max(10000),
+          price: Yup.number().required("Price is required").min(100).max(10000),
           discount: Yup.number()
             .required("Discount is required")
             .min(0)
