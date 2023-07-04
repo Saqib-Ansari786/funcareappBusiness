@@ -67,13 +67,8 @@ const UserProfileScreen = () => {
             />
             <List.Item
               title="Earnings"
-              description="$1000"
+              description="Rs. 0"
               left={() => <List.Icon icon="cash" />}
-            />
-            <List.Item
-              title="Description"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed venenatis, lectus non molestie blandit, purus justo finibus magna, eget lobortis ex sapien ac velit."
-              left={() => <List.Icon icon="information" />}
             />
           </List.Section>
           <TouchableHighlight

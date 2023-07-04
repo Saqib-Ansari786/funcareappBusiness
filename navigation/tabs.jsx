@@ -34,7 +34,7 @@ const Tabs = () => {
                   }}
                 />
               );
-            case "MyPlayLands":
+            case "MyPlayLand":
               return (
                 <Image
                   source={icons.play}
@@ -75,7 +75,7 @@ const Tabs = () => {
       })}
     >
       <Tab.Screen name="HomeScreen" component={Home} />
-      <Tab.Screen name="MyPlayLands" component={MyPlaylands} />
+      <Tab.Screen name="MyPlayLand" component={MyPlaylands} />
       <Tab.Screen name="History" component={History} />
       <Tab.Screen name="User" component={User} />
     </Tab.Navigator>

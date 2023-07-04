@@ -66,6 +66,7 @@ export default function Home() {
         <ActivityIndicator size="large" color={COLORS.primary} />
       ) : playlands.length > 0 ? (
         <ScrollView contentContainerStyle={styles.container}>
+          <Text style={styles.header}>WELCOME BACK!</Text>
           <Text style={styles.header}>Dashboard</Text>
           <View style={styles.metric}>
             <Text style={styles.metricText}>

@@ -21,7 +21,7 @@ const PlaylandScreen = () => {
               source={
                 landdata[0].path_url
                   ? { uri: landdata[0].path_url }
-                  : images.avatar
+                  : images.skiVilla
               }
             />
             <View style={styles.nameContainer}>
@@ -48,7 +48,7 @@ const PlaylandScreen = () => {
             <View style={styles.details}>
               <View style={styles.detail}>
                 <Text style={styles.detailLabel}>Earnings:</Text>
-                <Text style={styles.detailValue}>0</Text>
+                <Text style={styles.detailValue}>Rs. 0</Text>
               </View>
               <View style={styles.detail}>
                 <Text style={styles.detailLabel}>Timings:</Text>
@@ -58,27 +58,15 @@ const PlaylandScreen = () => {
               </View>
               <View style={styles.detail}>
                 <Text style={styles.detailLabel}>Price:</Text>
-                <Text style={styles.detailValue}>
-                  ${landdata[0].price} per hour
-                </Text>
+                <Text style={styles.detailValue}>Rs. {landdata[0].price}</Text>
               </View>
               <View style={styles.detail}>
                 <Text style={styles.detailLabel}>Discount:</Text>
-                <Text style={styles.detailValue}>
-                  {landdata[0].discount}% off on weekdays
-                </Text>
+                <Text style={styles.detailValue}>{landdata[0].discount}%</Text>
               </View>
               <View style={styles.detail}>
                 <Text style={styles.detailLabel}>Location:</Text>
                 <Text style={styles.detailValue}>{landdata[0].location}</Text>
-              </View>
-              <View style={styles.detail}>
-                <Text style={styles.detailLabel}>Packages:</Text>
-                <Text style={styles.detailValue}>
-                  Bumper package: 10 Merry-Go-Round in 20$
-                  {"\n"}
-                  Simple package: 2 Merry-Go-Round in 5$
-                </Text>
               </View>
             </View>
           </ScrollView>

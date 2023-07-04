@@ -13,12 +13,13 @@ import { firebaseConfig } from "../firebase";
 import firebase from "firebase/compat/app";
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
 import { phone, verification } from "../constants/images";
-import { COLORS, FONTS, SIZES } from "../constants";
+import { COLORS, FONTS, SIZES, icons } from "../constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
 import { ActivityIndicator } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import Modal from "react-native-modal";
 
 const validationSchema = Yup.object().shape({
   phoneNumber: Yup.string()
@@ -33,6 +34,7 @@ const SignUpScreen = ({ navigation }) => {
   const recaptchaVerifier = useRef(null);
   const [countryCode, setCountryCode] = useState("+92");
   const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
 
   const sendVerificationCode = (phoneNumber) => {
@@ -67,7 +69,6 @@ const SignUpScreen = ({ navigation }) => {
         setVerificationCode("");
         setErrorMessage(null);
         console.log(result);
-        Alert.alert("Verification Successful", "You are now signed in!");
         await AsyncStorage.setItem("authId", result.user.uid); // Save the authentication ID to storage
         dispatch({ type: "SET_USER_ID", payload: result.user.uid });
         const data = {
@@ -92,7 +93,11 @@ const SignUpScreen = ({ navigation }) => {
           );
           const json = await response.json();
           console.log(json);
-          gotoUserProfile();
+          setShowModal(true);
+          setTimeout(() => {
+            setShowModal(false);
+            gotoUserProfile();
+          }, 3000);
         } catch (error) {
           console.log(error);
         }
@@ -195,6 +200,15 @@ const SignUpScreen = ({ navigation }) => {
       {errorMessage && (
         <Text style={{ color: "red", margin: SIZES.font }}>{errorMessage}</Text>
       )}
+      {/* Payment done modal */}
+      <Modal isVisible={showModal}>
+        <View style={styles.modalContainer}>
+          <Image source={icons.tick} style={styles.modalIcon} />
+          <Text style={styles.modalText}>
+            Verification Done! You're now signed in.
+          </Text>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
@@ -233,5 +247,25 @@ const styles = StyleSheet.create({
     ...FONTS.h2,
     color: COLORS.white,
     letterSpacing: 3,
+  },
+  modalContainer: {
+    backgroundColor: COLORS.white,
+    padding: 20,
+    borderRadius: SIZES.radius,
+    alignItems: "center",
+    alignSelf: "center",
+    width: 350,
+    height: 300,
+  },
+  modalText: {
+    ...FONTS.h2,
+    color: COLORS.black,
+    letterSpacing: 3,
+    textAlign: "center",
+  },
+  modalIcon: {
+    width: 200,
+    height: 200,
+    resizeMode: "cover",
   },
 });
