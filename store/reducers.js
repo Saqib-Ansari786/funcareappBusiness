@@ -8,13 +8,37 @@ const PlaylandInitialState = {
   playland_name: null,
   discription: null,
   image: null,
-  Latitude: null,
-  Longitude: null,
-  time_open: null,
-  time_close: null,
-  price: null,
-  discount: null,
   location: null,
+  existingPackages: [
+    {
+      package_name: "Silver Package",
+      price: 100,
+      discription:
+        "In this package you will get 1 hour of playtime. You can play any game you want. You can also bring your own games. ",
+      discount: 0,
+    },
+    {
+      package_name: "Gold Package",
+      price: 200,
+      discription:
+        "In this package you will get 2 hour of playtime. You can play any game you want. You can also bring your own games. ",
+      discount: 0,
+    },
+    {
+      package_name: "Platinum Package",
+      price: 300,
+      discription:
+        "In this package you will get 3 hour of playtime. You can play any game you want. You can also bring your own games. ",
+      discount: 0,
+    },
+    {
+      package_name: "Diamond Package",
+      price: 400,
+      discription:
+        "In this package you will get 4 hour of playtime. You can play any game you want. You can also bring your own games. ",
+      discount: 0,
+    },
+  ],
 };
 
 const landdatainitialState = {
@@ -47,26 +71,12 @@ export const PlaylandReducer = createReducer(PlaylandInitialState, {
   SET_IMAGE: (state, action) => {
     state.image = action.payload;
   },
-  SET_LATITUDE: (state, action) => {
-    state.Latitude = action.payload;
-  },
-  SET_LONGITUDE: (state, action) => {
-    state.Longitude = action.payload;
-  },
   SET_LOCATION: (state, action) => {
     state.location = action.payload;
   },
-  SET_TIME_OPEN: (state, action) => {
-    state.time_open = action.payload;
-  },
-  SET_TIME_CLOSE: (state, action) => {
-    state.time_close = action.payload;
-  },
-  SET_PRICE: (state, action) => {
-    state.price = action.payload;
-  },
-  SET_DISCOUNT: (state, action) => {
-    state.discount = action.payload;
+
+  SET_PACKAGES: (state, action) => {
+    state.existingPackages = action.payload;
   },
 });
 

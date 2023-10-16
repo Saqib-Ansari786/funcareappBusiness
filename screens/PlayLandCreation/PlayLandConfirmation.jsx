@@ -16,26 +16,88 @@ const PlaylandConfirmation = () => {
   async function createPlayland() {
     try {
       setIsLoading(true);
+
+      let uploadData = {
+        playland_name: playland.playland_name,
+        location: playland.location,
+        discription: playland.discription,
+        user_firebase_id: userID,
+        image: playland.image,
+        packages: [
+          {
+            package_name: "Package 1",
+            price: 100,
+            discription: "Package 1",
+            discount: 0,
+          },
+          {
+            package_name: "Package 2",
+            price: 200,
+            discription: "Package 2",
+            discount: 0,
+          },
+          {
+            package_name: "Package 3",
+            price: 300,
+            discription: "Package 3",
+            discount: 0,
+          },
+          {
+            package_name: "Package 4",
+            price: 400,
+            discription: "Package 4",
+            discount: 0,
+          },
+        ],
+      };
+
       const response = await fetch(
-        "http://starter-express-api-git-main-salman36.vercel.app/api/auth/create/playlanduser",
+        "https://funcare-backend.vercel.app/api/auth/create/playlanduser",
         {
           method: "POST",
+          body: JSON.stringify(uploadData),
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            playland_name: playland.playland_name,
-            location: playland.location,
-            discription: playland.discription,
-            price: playland.price,
-            discount: playland.discount,
-            time_open: playland.time_open,
-            time_close: playland.time_close,
-            user_firebase_id: userID,
-            path_url: playland.image,
-          }),
         }
       );
+      // const data = await response.json();
+      // console.log(data);
+
+      // // const responseImage = await fetch(
+      // //   "https://funcare-backend.vercel.app/api/upload", // your upload endpoint
+      // //   {
+      // //     method: "POST",
+      // //     body: formData,
+      // //     headers: {
+      // //       "Content-Type": "multipart/form-data",
+      // //     },
+      // //   }
+      // // );
+      // // const dataImage = await responseImage.json();
+      // // console.log(dataImage);
+      // // playland.image = dataImage.path_url;
+
+      // const response = await fetch(
+      //   "https://funcare-backend.vercel.app/api/auth/create/playlanduser",
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       playland_name: playland.playland_name,
+      //       location: playland.location,
+      //       discription: playland.discription,
+      //       price: playland.price,
+      //       discount: playland.discount,
+      //       time_open: playland.time_open,
+      //       time_close: playland.time_close,
+      //       user_firebase_id: userID,
+      //       path_url: playland.image,
+      //     }),
+      //   }
+      // );
       const data = await response.json();
       console.log(data);
       dispatch({ type: "SET_PLAYLAND_CREATE", payload: true });

@@ -11,13 +11,16 @@ import * as ImagePicker from "expo-image-picker";
 import { Button, IconButton, TextInput } from "react-native-paper";
 import { COLORS, FONTS, SIZES } from "../../constants";
 import { useDispatch, useSelector } from "react-redux";
+import { Cloudinary } from "@cloudinary/url-gen/index";
 
 export default function PlaylandImage({ navigation }) {
   const [avatarUrl, setAvatarUrl] = useState(
     "https://randomuser.me/api/portraits/men/1.jpg"
   );
+  const [image, setImage] = useState({});
   const dispatch = useDispatch();
   const playLandData = useSelector((state) => state.playland);
+  const cld = new Cloudinary({ cloud: { cloudName: "dj4jj7sog" } });
 
   const handlePickImage = async () => {
     let permissionResult;
@@ -40,18 +43,41 @@ export default function PlaylandImage({ navigation }) {
 
     if (!result.canceled) {
       setAvatarUrl(result.assets[0].uri);
-      console.log(result.assets[0].uri);
+      console.log(result);
+
+      await imageUpload({
+        uri: result.assets[0].uri,
+        type: `test/${result.assets[0].uri.split(".")[1]}`,
+        name: result.assets[0].uri.split("/")[
+          result.assets[0].uri.split("/").length - 1
+        ],
+      });
     }
   };
 
-  async function handleSave() {
+  async function imageUpload(image) {
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", "funcare_images");
+    data.append("cloud_name", "dj4jj7sog");
+
     try {
-      const finalImage = await convertToBase64(avatarUrl);
-      console.log(finalImage);
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dj4jj7sog/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      const res = await response.json();
+      console.log(res);
+      setAvatarUrl(res.secure_url);
     } catch (error) {
       console.log(error);
     }
+  }
 
+  async function handleSave() {
     dispatch({ type: "SET_IMAGE", payload: avatarUrl });
     const finaldata = {
       ...playLandData,
