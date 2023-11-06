@@ -9,8 +9,9 @@ import {
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
+import { COLORS, SIZES } from "../../constants";
 
-export default function PlaylandDescription() {
+export default function PlaylandDescription({ navigation }) {
   const dispatch = useDispatch();
   const existingPackages = useSelector(
     (state) => state.playland.existingPackages
@@ -54,25 +55,6 @@ export default function PlaylandDescription() {
       <Text style={{ fontSize: 20, fontWeight: "bold" }}>
         Playland Packages
       </Text>
-      <View>
-        {existingPackages.map((item, index) => (
-          <TouchableOpacity
-            key={index}
-            onPress={() => handleEditPackage(item)}
-            style={{
-              backgroundColor: "#fff",
-              padding: 20,
-              marginVertical: 8,
-              marginHorizontal: 16,
-            }}
-          >
-            <Text>Name: {item.package_name}</Text>
-            <Text>Price: {item.price}</Text>
-            <Text>Discount: {item.discount}</Text>
-            <Text>Description: {item.discription}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
       <View>
         <TextInput
           mode="outlined"
@@ -126,6 +108,40 @@ export default function PlaylandDescription() {
           title="Save Package"
         />
       </View>
+      <View>
+        {existingPackages.map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => handleEditPackage(item)}
+            style={{
+              backgroundColor: "#fff",
+              padding: 20,
+              marginVertical: 8,
+              marginHorizontal: 16,
+            }}
+          >
+            <Text>Name: {item.package_name}</Text>
+            <Text>Price: {item.price}</Text>
+            <Text>Discount: {item.discount}</Text>
+            <Text>Description: {item.discription}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+      <TouchableOpacity
+        style={{
+          backgroundColor: COLORS.black,
+          padding: 10,
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 20,
+          marginVertical: 8,
+          marginHorizontal: 16,
+          width: 300,
+        }}
+        onPress={() => navigation.navigate("PlaylandImage")}
+      >
+        <Text style={{ color: COLORS.white, fontSize: SIZES.h2 }}>Next</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -133,8 +149,9 @@ export default function PlaylandDescription() {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    justifyContent: "center",
     flexGrow: 1,
+    paddingVertical: 30,
+    padingHorizontal: 10,
   },
   textInput: {
     height: 40,
