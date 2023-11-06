@@ -22,6 +22,9 @@ import PlaylandConfirmation from "./screens/PlayLandCreation/PlayLandConfirmatio
 import EditUser from "./screens/EditUser";
 import Helpfaq from "./screens/Helpfaq";
 import Onboarding3 from "./screens/Onboarding/Onboarding3";
+import EmailScreen from "./screens/SignupScreens/EmailScreen";
+import VerificationScreen from "./screens/SignupScreens/VerificationScreen";
+import UserNameImageScreen from "./screens/SignupScreens/UserNameImageScreen";
 
 const theme = {
   ...DefaultTheme,
@@ -194,6 +197,32 @@ export function Main() {
             options={() => ({
               headerLeft: null,
             })}
+          />
+
+          {/* Authentication User screens */}
+          <Stack.Screen
+            name="EmailScreen"
+            component={EmailScreen}
+            options={{
+              title: null,
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="VerificationScreen"
+            component={VerificationScreen}
+            options={{
+              title: null,
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="UserNameImageScreen"
+            component={UserNameImageScreen}
+            options={{
+              title: null,
+              headerShown: false,
+            }}
           />
 
           {/* <Stack.Screen

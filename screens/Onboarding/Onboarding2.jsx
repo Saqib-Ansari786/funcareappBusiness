@@ -8,7 +8,7 @@ export default function Onboarding2({ navigation }) {
       <Onboarding
         title="Build your trust with customers"
         image={images.onboarding_image3}
-        buttonNavigate={() => navigation.navigate("Signup")}
+        buttonNavigate={() => navigation.navigate("EmailScreen")}
         description="Its easy to get verified and build trust with customers"
       />
     </>

@@ -12,31 +12,31 @@ const PlaylandInitialState = {
   existingPackages: [
     {
       package_name: "Silver Package",
-      price: 100,
+      price: "100",
       discription:
         "In this package you will get 1 hour of playtime. You can play any game you want. You can also bring your own games. ",
-      discount: 0,
+      discount: "0",
     },
     {
       package_name: "Gold Package",
-      price: 200,
+      price: "200",
       discription:
         "In this package you will get 2 hour of playtime. You can play any game you want. You can also bring your own games. ",
-      discount: 0,
+      discount: "0",
     },
     {
       package_name: "Platinum Package",
-      price: 300,
+      price: "300",
       discription:
         "In this package you will get 3 hour of playtime. You can play any game you want. You can also bring your own games. ",
-      discount: 0,
+      discount: "0",
     },
     {
       package_name: "Diamond Package",
-      price: 400,
+      price: "400",
       discription:
         "In this package you will get 4 hour of playtime. You can play any game you want. You can also bring your own games. ",
-      discount: 0,
+      discount: "0",
     },
   ],
 };

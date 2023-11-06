@@ -24,11 +24,11 @@ const UserProfileScreen = () => {
       try {
         setIsLoading(true);
         const response = await fetch(
-          `http://starter-express-api-git-main-salman36.vercel.app/api/auth/businessuser/record/${userId}`
+          `https://funcare-backend.vercel.app/api/auth/businessuser/${userId}`
         );
         const responseData = await response.json();
         console.log(responseData);
-        setUserData(responseData.BusinessUserRecord[0]);
+        setUserData(responseData.user);
         dispatch({ type: "SET_USER_REQUEST", payload: false });
       } catch (error) {
         console.error(error);
@@ -51,15 +51,14 @@ const UserProfileScreen = () => {
               size={50}
               source={images.onboardingImage}
             />
-            <Text style={styles.name}>{userData.name}</Text>
+            <Text style={styles.name}>
+              {" "}
+              {userData.name ? userData.name : "Unknown"}
+            </Text>
           </View>
           <List.Section>
             <List.Subheader>Profile Details</List.Subheader>
-            <List.Item
-              title="Phone Number"
-              description={userData.phone}
-              left={() => <List.Icon icon="phone" />}
-            />
+
             <List.Item
               title="Email Address"
               description={userData.email}

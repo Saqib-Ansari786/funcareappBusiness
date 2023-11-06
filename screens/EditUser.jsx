@@ -12,9 +12,8 @@ import { useDispatch } from "react-redux";
 const EditUser = ({ route }) => {
   const { userData } = route.params;
   const navigation = useNavigation();
-  const [name, setName] = React.useState(userData.name);
+  const [name, setName] = React.useState(userData.name ? userData.name : "");
   const [email, setEmail] = React.useState(userData.email);
-  const [phone, setPhone] = React.useState(userData.phone.toString());
   const [isLoading, setIsLoading] = React.useState(false);
   const dispatch = useDispatch();
 
@@ -31,8 +30,6 @@ const EditUser = ({ route }) => {
           body: JSON.stringify({
             name: name,
             email: email,
-            phone: phone,
-            firebase_id: userData.firebase_id,
           }),
         }
       );
@@ -81,17 +78,7 @@ const EditUser = ({ route }) => {
             onChangeText={(text) => setEmail(text)}
           />
         </View>
-        <View style={styles.inputContainer}>
-          <AntDesign name="phone" size={20} style={styles.inputIcon} />
-          <TextInput
-            label="Phone Number"
-            mode="outlined"
-            style={styles.input}
-            placeholder="Enter your Phone Number"
-            value={phone}
-            editable={false}
-          />
-        </View>
+
         {isLoading ? (
           <ActivityIndicator size="large" color="#000" />
         ) : (
