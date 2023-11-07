@@ -49,7 +49,7 @@ const UserProfileScreen = () => {
             <Avatar.Image
               style={styles.avatar}
               size={50}
-              source={userData.image}
+              source={{ uri: userData.image }}
             />
             <Text style={styles.name}>
               {" "}

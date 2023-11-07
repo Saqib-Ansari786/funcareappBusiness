@@ -42,7 +42,8 @@ export default function History() {
           Booking Status: {item.bookingstatus}
         </Text>
         <Text style={styles.bookingStatus}>Payment Method: {item.method}</Text>
-        <Text style={styles.amount}>Amount: ${item.amount}</Text>
+        <Text style={styles.amount}>Amount: Rs.{item.price}</Text>
+        <Text style={styles.amount}>Discount: Rs.{item.discount}</Text>
       </View>
     </View>
   );
