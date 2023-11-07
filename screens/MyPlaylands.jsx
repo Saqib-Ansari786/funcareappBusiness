@@ -45,24 +45,35 @@ const PlaylandScreen = () => {
                 <Text style={styles.detailLabel}>Earnings:</Text>
                 <Text style={styles.detailValue}>Rs. 0</Text>
               </View>
-              <View style={styles.timings}>
-                <Text style={styles.detailLabel}>Timings:</Text>
+
+              <View style={styles.detail}>
+                <Text style={styles.detailLabel}>Morning Timing:</Text>
                 <Text style={styles.detailValue}>
                   {playland.timing1.timing}
                 </Text>
               </View>
               <View style={styles.detail}>
-                <Text style={styles.detailLabel}>Price:</Text>
-                {/* <Text style={styles.detailValue}>Rs. {landdata[0].price}</Text> */}
+                <Text style={styles.detailLabel}>Afternoon Timing:</Text>
+                <Text style={styles.detailValue}>
+                  {playland.timing2.timing}
+                </Text>
               </View>
               <View style={styles.detail}>
-                <Text style={styles.detailLabel}>Discount:</Text>
-                {/* <Text style={styles.detailValue}>{landdata[0].discount}%</Text> */}
+                <Text style={styles.detailLabel}>Evening Timing:</Text>
+                <Text style={styles.detailValue}>
+                  {playland.timing3.timing}
+                </Text>
               </View>
               <View style={styles.detail}>
                 <Text style={styles.detailLabel}>Location:</Text>
-                <Text style={styles.detailValue}>{landdata[0].location}</Text>
+                <Text style={styles.detailValue}>{playland.location}</Text>
               </View>
+              {playland.packages.map((item, index) => (
+                <View style={styles.detail} key={index}>
+                  <Text style={styles.detailLabel}>{item.package_name}</Text>
+                  <Text style={styles.detailValue}>{item.price}</Text>
+                </View>
+              ))}
             </View>
           </ScrollView>
         </>
