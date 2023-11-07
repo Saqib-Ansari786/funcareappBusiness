@@ -30,11 +30,11 @@ export default function Home() {
       try {
         setIsLoading(true);
         const response = await fetch(
-          `http://starter-express-api-git-main-salman36.vercel.app/api/auth/user/playland/${userId}`
+          `https://funcare-backend.vercel.app/api/auth/playland/${userId}`
         );
         const data = await response.json();
-        setPlaylands(data.userPlayland);
-        dispatch({ type: "SET_LAND_DATA", payload: data.userPlayland });
+        setPlaylands(data.playland);
+        dispatch({ type: "SET_LAND_DATA", payload: data.playland });
         dispatch({ type: "SET_PLAYLAND_CREATE", payload: false });
         dispatch({ type: "SET_PLAYLAND_UPDATE", payload: false });
         console.log(data);

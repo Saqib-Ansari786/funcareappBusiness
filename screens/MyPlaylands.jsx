@@ -9,25 +9,21 @@ import { TouchableOpacity } from "react-native";
 const PlaylandScreen = () => {
   const navigation = useNavigation();
   const { landdata } = useSelector((state) => state.landdata);
+  const playland = landdata[0];
+  console.log(playland);
 
   return (
     <View style={styles.container}>
-      {landdata.length > 0 ? (
+      {landdata ? (
         <>
           <View style={styles.tab}>
             <Avatar.Image
               style={styles.avatar}
               size={50}
-              source={
-                landdata[0].path_url
-                  ? { uri: landdata[0].path_url }
-                  : images.skiVilla
-              }
+              source={{ uri: playland.image }}
             />
             <View style={styles.nameContainer}>
-              <Text style={styles.name}>
-                {landdata && landdata[0].playland_name}
-              </Text>
+              <Text style={styles.name}>{playland.playland_name}</Text>
               <Button
                 style={styles.editButton}
                 mode="contained"
@@ -44,25 +40,24 @@ const PlaylandScreen = () => {
             </View>
           </View>
           <ScrollView style={styles.content}>
-            <Text style={styles.description}>{landdata[0].discription}</Text>
             <View style={styles.details}>
               <View style={styles.detail}>
                 <Text style={styles.detailLabel}>Earnings:</Text>
                 <Text style={styles.detailValue}>Rs. 0</Text>
               </View>
-              <View style={styles.detail}>
+              <View style={styles.timings}>
                 <Text style={styles.detailLabel}>Timings:</Text>
                 <Text style={styles.detailValue}>
-                  {landdata[0].time_open} - {landdata[0].time_close}
+                  {playland.timing1.timing}
                 </Text>
               </View>
               <View style={styles.detail}>
                 <Text style={styles.detailLabel}>Price:</Text>
-                <Text style={styles.detailValue}>Rs. {landdata[0].price}</Text>
+                {/* <Text style={styles.detailValue}>Rs. {landdata[0].price}</Text> */}
               </View>
               <View style={styles.detail}>
                 <Text style={styles.detailLabel}>Discount:</Text>
-                <Text style={styles.detailValue}>{landdata[0].discount}%</Text>
+                {/* <Text style={styles.detailValue}>{landdata[0].discount}%</Text> */}
               </View>
               <View style={styles.detail}>
                 <Text style={styles.detailLabel}>Location:</Text>

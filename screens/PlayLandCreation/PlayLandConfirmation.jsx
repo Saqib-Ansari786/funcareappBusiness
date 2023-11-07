@@ -26,15 +26,15 @@ const PlaylandConfirmation = () => {
         packages: playland.existingPackages,
         timing1: {
           timing: `${playland.timings[0].start} - ${playland.timings[0].end}`,
-          seats: playland.timings[0].seats,
+          total_seats: playland.timings[0].seats,
         },
         timing2: {
           timing: `${playland.timings[1].start} - ${playland.timings[1].end}`,
-          seats: playland.timings[1].seats,
+          total_seats: playland.timings[1].seats,
         },
         timing3: {
           timing: `${playland.timings[2].start} - ${playland.timings[2].end}`,
-          seats: playland.timings[2].seats,
+          total_seats: playland.timings[2].seats,
         },
       };
       console.log(uploadData);
