@@ -11,7 +11,6 @@ import * as ImagePicker from "expo-image-picker";
 import { Button, IconButton, TextInput } from "react-native-paper";
 import { COLORS, FONTS, SIZES } from "../../constants";
 import { useDispatch, useSelector } from "react-redux";
-import { Cloudinary } from "@cloudinary/url-gen/index";
 
 export default function PlaylandImage({ navigation }) {
   const [avatarUrl, setAvatarUrl] = useState(
@@ -20,7 +19,6 @@ export default function PlaylandImage({ navigation }) {
   const [image, setImage] = useState({});
   const dispatch = useDispatch();
   const playLandData = useSelector((state) => state.playland);
-  const cld = new Cloudinary({ cloud: { cloudName: "dj4jj7sog" } });
 
   const handlePickImage = async () => {
     let permissionResult;
@@ -85,19 +83,6 @@ export default function PlaylandImage({ navigation }) {
     };
     console.log(finaldata);
 
-    const convertToBase64 = async (uri) => {
-      const response = await fetch(uri);
-      const blob = await response.blob();
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          resolve(reader.result);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      });
-    };
-
     // try {
     //   const response = await fetch(
     //     "http://starter-express-api-git-main-salman36.vercel.app/api/auth/create/playlanduser",
@@ -139,7 +124,7 @@ export default function PlaylandImage({ navigation }) {
       >
         <Button
           mode="contained"
-          onPress={() => navigation.navigate("Home")}
+          onPress={() => navigation.navigate("PlaylandConfirmation")}
           buttonColor="orange"
         >
           <Text style={styles.buttonText}>Skip</Text>

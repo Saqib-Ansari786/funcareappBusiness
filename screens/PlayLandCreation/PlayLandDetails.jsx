@@ -138,7 +138,7 @@ export default function PlaylandDescription({ navigation }) {
           marginHorizontal: 16,
           width: 300,
         }}
-        onPress={() => navigation.navigate("PlaylandImage")}
+        onPress={() => navigation.navigate("PlaylandTimings")}
       >
         <Text style={{ color: COLORS.white, fontSize: SIZES.h2 }}>Next</Text>
       </TouchableOpacity>

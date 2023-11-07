@@ -25,6 +25,7 @@ import Onboarding3 from "./screens/Onboarding/Onboarding3";
 import EmailScreen from "./screens/SignupScreens/EmailScreen";
 import VerificationScreen from "./screens/SignupScreens/VerificationScreen";
 import UserNameImageScreen from "./screens/SignupScreens/UserNameImageScreen";
+import SelectTimingsScreen from "./screens/PlayLandCreation/PlaylandTimings";
 
 const theme = {
   ...DefaultTheme,
@@ -156,6 +157,14 @@ export function Main() {
           <Stack.Screen
             name="PlaylandName"
             component={PlaylandName}
+            options={{
+              title: null,
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="PlaylandTimings"
+            component={SelectTimingsScreen}
             options={{
               title: null,
               headerShown: false,

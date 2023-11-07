@@ -1,7 +1,5 @@
-import { View, Text } from "react-native";
 import React from "react";
-import { TouchableOpacity } from "react-native";
-import { Image } from "react-native";
+import { Image, TouchableOpacity, View } from "react-native";
 import { icons } from "../constants";
 import { useNavigation } from "@react-navigation/native";
 
@@ -18,10 +16,15 @@ export default function Header() {
         flexDirection: "row",
       }}
     >
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 0 }}>
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();
+          }}
+          style={{
+            padding: 7,
+            backgroundColor: "rgba(255,255,255,0.4)",
+            borderRadius: 10,
           }}
         >
           <Image
