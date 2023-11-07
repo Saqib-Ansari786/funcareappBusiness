@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Header from "../../components/Header";
 import { ScrollView } from "react-native";
+import { useDispatch } from "react-redux";
 
 const TimingsScreen = ({ navigation }) => {
   const [timings, setTimings] = useState([
@@ -16,11 +17,17 @@ const TimingsScreen = ({ navigation }) => {
     { period: "Afternoon", start: "2pm", end: "5pm", seats: 50 },
     { period: "Night", start: "6pm", end: "10pm", seats: 50 },
   ]);
+  const dispatch = useDispatch();
 
   const handleEdit = (index, field, newValue) => {
     const updatedTimings = [...timings];
     updatedTimings[index][field] = newValue;
     setTimings(updatedTimings);
+  };
+
+  const handleSubmit = () => {
+    dispatch({ type: "SET_TIMINGS", payload: timings });
+    navigation.navigate("PlaylandImage");
   };
 
   return (
@@ -77,12 +84,7 @@ const TimingsScreen = ({ navigation }) => {
           </View>
         ))}
         <View style={{ marginTop: 20 }}>
-          <Button
-            title="Next"
-            onPress={() => {
-              navigation.navigate("PlaylandImage");
-            }}
-          />
+          <Button title="Next" onPress={handleSubmit} />
         </View>
       </ScrollView>
     </ImageBackground>

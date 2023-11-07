@@ -39,6 +39,7 @@ const PlaylandInitialState = {
       discount: "0",
     },
   ],
+  timings: [],
 };
 
 const landdatainitialState = {
@@ -77,6 +78,9 @@ export const PlaylandReducer = createReducer(PlaylandInitialState, {
 
   SET_PACKAGES: (state, action) => {
     state.existingPackages = action.payload;
+  },
+  SET_TIMINGS: (state, action) => {
+    state.timings = action.payload;
   },
 });
 

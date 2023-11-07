@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { ActivityIndicator, Image } from "react-native";
 import { TouchableOpacity } from "react-native";
-import { View, StyleSheet } from "react-native";
-import { TextInput, Button, Text } from "react-native-paper";
+import { View, StyleSheet, ScrollView } from "react-native";
+import { Text, Button, Card } from "react-native-paper";
 import { COLORS, SIZES, icons } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ const PlaylandConfirmation = () => {
   const userID = useSelector((state) => state.user.userId);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+
   async function createPlayland() {
     try {
       setIsLoading(true);
@@ -20,37 +21,23 @@ const PlaylandConfirmation = () => {
       let uploadData = {
         playland_name: playland.playland_name,
         location: playland.location,
-        discription: playland.discription,
-        user_firebase_id: userID,
+        user_id: userID,
         image: playland.image,
-        packages: [
-          {
-            package_name: "Package 1",
-            price: 100,
-            discription: "Package 1",
-            discount: 0,
-          },
-          {
-            package_name: "Package 2",
-            price: 200,
-            discription: "Package 2",
-            discount: 0,
-          },
-          {
-            package_name: "Package 3",
-            price: 300,
-            discription: "Package 3",
-            discount: 0,
-          },
-          {
-            package_name: "Package 4",
-            price: 400,
-            discription: "Package 4",
-            discount: 0,
-          },
-        ],
+        packages: playland.existingPackages,
+        timing1: {
+          timing: `${playland.timings[0].start} - ${playland.timings[0].end}`,
+          seats: playland.timings[0].seats,
+        },
+        timing2: {
+          timing: `${playland.timings[1].start} - ${playland.timings[1].end}`,
+          seats: playland.timings[1].seats,
+        },
+        timing3: {
+          timing: `${playland.timings[2].start} - ${playland.timings[2].end}`,
+          seats: playland.timings[2].seats,
+        },
       };
-
+      console.log(uploadData);
       const response = await fetch(
         "https://funcare-backend.vercel.app/api/auth/create/playlanduser",
         {
@@ -61,43 +48,7 @@ const PlaylandConfirmation = () => {
           },
         }
       );
-      // const data = await response.json();
-      // console.log(data);
 
-      // // const responseImage = await fetch(
-      // //   "https://funcare-backend.vercel.app/api/upload", // your upload endpoint
-      // //   {
-      // //     method: "POST",
-      // //     body: formData,
-      // //     headers: {
-      // //       "Content-Type": "multipart/form-data",
-      // //     },
-      // //   }
-      // // );
-      // // const dataImage = await responseImage.json();
-      // // console.log(dataImage);
-      // // playland.image = dataImage.path_url;
-
-      // const response = await fetch(
-      //   "https://funcare-backend.vercel.app/api/auth/create/playlanduser",
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       playland_name: playland.playland_name,
-      //       location: playland.location,
-      //       discription: playland.discription,
-      //       price: playland.price,
-      //       discount: playland.discount,
-      //       time_open: playland.time_open,
-      //       time_close: playland.time_close,
-      //       user_firebase_id: userID,
-      //       path_url: playland.image,
-      //     }),
-      //   }
-      // );
       const data = await response.json();
       console.log(data);
       dispatch({ type: "SET_PLAYLAND_CREATE", payload: true });
@@ -109,112 +60,117 @@ const PlaylandConfirmation = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <View
-        style={{
-          position: "absolute",
-          top: 50,
-          left: 20,
-          right: 20,
-          //height: 50,
-          flexDirection: "row",
-        }}
-      >
-        <View style={{ flex: 1 }}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
-            }}
-          >
-            <Image
-              source={icons.back}
-              resizeMode="cover"
-              style={{
-                width: 30,
-                height: 30,
-              }}
-            />
-          </TouchableOpacity>
-        </View>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image source={icons.back} style={styles.backButton} />
+        </TouchableOpacity>
+        <Text style={styles.title}>Playland Confirmation</Text>
       </View>
-      <Text style={styles.title}>Playland Confirmation</Text>
-      <TextInput
-        label="Playland Name"
-        value={playland.playland_name}
-        editable={false}
-        style={styles.input}
-      />
-      <TextInput
-        label="Location Map Link"
-        value={playland.location}
-        editable={false}
-        style={styles.input}
-      />
-      <TextInput
-        label="Description"
-        value={playland.discription}
-        editable={false}
-        multiline={true}
-        style={styles.input}
-      />
-      <TextInput
-        label="Price"
-        value={playland.price}
-        editable={false}
-        style={styles.input}
-      />
-      <TextInput
-        label="Discount"
-        value={playland.discount}
-        editable={false}
-        style={styles.input}
-      />
-      <TextInput
-        label="Start Time"
-        value={playland.time_open}
-        editable={false}
-        style={styles.input}
-      />
-      <TextInput
-        label="End Time"
-        value={playland.time_close}
-        editable={false}
-        style={styles.input}
-      />
-      {isLoading ? (
-        <ActivityIndicator size="large" color={COLORS.primary} />
-      ) : (
-        <Button mode="contained" style={styles.button} onPress={createPlayland}>
-          Submit
-        </Button>
-      )}
-    </View>
+
+      <View style={styles.dataContainer}>
+        <Card style={styles.card}>
+          <Card.Content>
+            <Text style={styles.cardTitle}>Playland Name</Text>
+            <Text style={styles.cardText}>{playland.playland_name}</Text>
+          </Card.Content>
+        </Card>
+
+        <Card style={styles.card}>
+          <Card.Content>
+            <Text style={styles.cardTitle}>Location Map Link</Text>
+            <Text style={styles.cardText}>{playland.location}</Text>
+          </Card.Content>
+        </Card>
+        {playland.timings.map((item, index) => {
+          return (
+            <Card style={styles.card} key={index}>
+              <Card.Content>
+                <Text style={styles.cardTitle}>{item.period} Timings</Text>
+
+                <Text style={styles.cardText}>
+                  {item.start} - {item.end}
+                </Text>
+                <Text style={styles.cardText}>No of seats: {item.seats}</Text>
+              </Card.Content>
+            </Card>
+          );
+        })}
+        {playland.existingPackages.map((item, index) => {
+          return (
+            <Card style={styles.card} key={index}>
+              <Card.Content>
+                <Text style={styles.cardTitle}>{item.package_name}</Text>
+                <Text style={styles.cardText}>Price: {item.price}</Text>
+              </Card.Content>
+            </Card>
+          );
+        })}
+      </View>
+
+      <View style={styles.footer}>
+        {isLoading ? (
+          <ActivityIndicator size="large" color={COLORS.primary} />
+        ) : (
+          <Button
+            mode="contained"
+            style={styles.button}
+            onPress={createPlayland}
+          >
+            Submit
+          </Button>
+        )}
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.lightGray,
+    padding: SIZES.padding,
+    flexGrow: 1,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: SIZES.padding * 2,
+  },
+  backButton: {
+    width: 30,
+    height: 30,
   },
   title: {
-    fontSize: 24,
+    fontSize: SIZES.h2,
     fontWeight: "bold",
-    marginBottom: 16,
-    marginTop: 70,
+    marginLeft: SIZES.padding,
   },
-  input: {
-    marginVertical: 8,
+  dataContainer: {
+    flexGrow: 1,
+    paddingVertical: SIZES.padding,
+  },
+  card: {
+    marginBottom: SIZES.padding,
+    elevation: 3,
+    backgroundColor: COLORS.white,
+  },
+  cardTitle: {
+    fontSize: SIZES.h3,
+    fontWeight: "bold",
+    color: COLORS.primary,
+  },
+  cardText: {
+    fontSize: SIZES.body4,
+    color: COLORS.gray,
+  },
+  footer: {
+    alignItems: "center",
   },
   button: {
-    alignItems: "center",
     backgroundColor: COLORS.primary,
-    padding: SIZES.radius * 0.4,
-    margin: SIZES.radius,
+    padding: SIZES.radius * 0.6,
     borderRadius: SIZES.radius,
-    width: SIZES.width * 0.5,
-    alignSelf: "center",
+    width: "50%",
   },
 });
 
