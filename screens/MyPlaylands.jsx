@@ -29,9 +29,7 @@ const PlaylandScreen = () => {
                 mode="contained"
                 onPress={() =>
                   navigation.navigate("Editplayland", {
-                    price: landdata[0].price,
-                    discount: landdata[0].discount,
-                    discription: landdata[0].discription,
+                    playland: playland,
                   })
                 }
               >

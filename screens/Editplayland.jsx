@@ -17,18 +17,19 @@ import * as yup from "yup";
 
 const validationSchema = yup.object().shape({
   playland_name: yup.string().required("Playland name is required"),
-  price: yup.number().required("Price is required").min(100).max(10000),
-  discount: yup.number().required("Discount is required").min(0).max(100),
-  discription: yup.string().required("Description is required"),
+  timing1: yup.string().required("Timing is required"),
+  timing2: yup.string().required("Timing is required"),
+  timing3: yup.string().required("Timing is required"),
 });
 
 const EditDetailScreen = ({ route, navigation }) => {
-  const { landdata } = useSelector((state) => state.landdata);
-  const { _id, playland_name, price, discount, discription } = landdata[0];
+  const { _id, playland_name, packages, timing1, timing2, timing3 } =
+    route.params.playland;
   const [newname, setName] = useState(playland_name);
-  const [newprice, setPrice] = useState(price.toString());
-  const [newdiscount, setDiscount] = useState(discount.toString());
-  const [newdiscription, setDiscription] = useState(discription);
+  const [newtiming1, setTiming1] = useState(timing1.timing);
+  const [newtiming2, setTiming2] = useState(timing2.timing);
+  const [newtiming3, setTiming3] = useState(timing3.timing);
+
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -37,7 +38,7 @@ const EditDetailScreen = ({ route, navigation }) => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `http://starter-express-api-git-main-salman36.vercel.app/api/auth//playlanduser/update/${_id}`,
+        `https://funcare-backend.vercel.app/api/auth/playlanduser/update/${_id}`,
         {
           method: "POST",
           headers: {
@@ -45,9 +46,15 @@ const EditDetailScreen = ({ route, navigation }) => {
           },
           body: JSON.stringify({
             playland_name: values.playland_name,
-            price: values.price,
-            discount: values.discount,
-            discription: values.discription,
+            timing1: {
+              timing: values.timing1,
+            },
+            timing2: {
+              timing: values.timing2,
+            },
+            timing3: {
+              timing: values.timing3,
+            },
           }),
         }
       );
@@ -68,9 +75,9 @@ const EditDetailScreen = ({ route, navigation }) => {
       <Formik
         initialValues={{
           playland_name: newname,
-          price: newprice,
-          discount: newdiscount,
-          discription: newdiscription,
+          timing1: newtiming1,
+          timing2: newtiming2,
+          timing3: newtiming3,
         }}
         validationSchema={validationSchema}
         onSubmit={onSave}
@@ -104,66 +111,64 @@ const EditDetailScreen = ({ route, navigation }) => {
                 <Text style={styles.error}>{errors.playland_name}</Text>
               )}
             </View>
-
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>Price:</Text>
+              <Text style={styles.label}>Timing 1:</Text>
               <MaterialIcons
-                name="local-offer"
+                name="face"
                 size={24}
                 color="#888"
                 style={styles.icon}
               />
               <TextInput
                 style={styles.input}
-                value={values.price}
-                onChangeText={handleChange("price")}
-                placeholder="Price"
+                value={values.timing1}
+                onChangeText={handleChange("timing1")}
+                placeholder="Timing"
                 placeholderTextColor="#888"
-                keyboardType="numeric"
-                onBlur={handleBlur("price")}
+                onBlur={handleBlur("timing1")}
               />
-              {errors.price && touched.price && (
-                <Text style={styles.error}>{errors.price}</Text>
+              {errors.timing1 && touched.timing1 && (
+                <Text style={styles.error}>{errors.timing1}</Text>
               )}
             </View>
-
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>Discount:</Text>
-
+              <Text style={styles.label}>Timing 2:</Text>
               <MaterialIcons
-                name="local-offer"
+                name="face"
                 size={24}
                 color="#888"
                 style={styles.icon}
               />
               <TextInput
                 style={styles.input}
-                value={values.discount}
-                onChangeText={handleChange("discount")}
-                placeholder="Discount"
+                value={values.timing2}
+                onChangeText={handleChange("timing2")}
+                placeholder="Timing"
                 placeholderTextColor="#888"
-                keyboardType="numeric"
-                onBlur={handleBlur("discount")}
+                onBlur={handleBlur("timing2")}
               />
-              {errors.discount && touched.discount && (
-                <Text style={styles.error}>{errors.discount}</Text>
+              {errors.timing2 && touched.timing2 && (
+                <Text style={styles.error}>{errors.timing2}</Text>
               )}
             </View>
-
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>Description:</Text>
-              <TextInput
-                style={[styles.input, { height: SIZES.height * 0.2 }]}
-                value={values.discription}
-                onChangeText={handleChange("discription")}
-                placeholder="Description"
-                placeholderTextColor="#888"
-                multiline
-                numberOfLines={4}
-                onBlur={handleBlur("discription")}
+              <Text style={styles.label}>Timing 3:</Text>
+              <MaterialIcons
+                name="face"
+                size={24}
+                color="#888"
+                style={styles.icon}
               />
-              {errors.discription && touched.discription && (
-                <Text style={styles.error}>{errors.discription}</Text>
+              <TextInput
+                style={styles.input}
+                value={values.timing3}
+                onChangeText={handleChange("timing3")}
+                placeholder="Timing"
+                placeholderTextColor="#888"
+                onBlur={handleBlur("timing3")}
+              />
+              {errors.timing3 && touched.timing3 && (
+                <Text style={styles.error}>{errors.timing3}</Text>
               )}
             </View>
 
