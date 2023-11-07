@@ -14,7 +14,7 @@ const PlaylandScreen = () => {
 
   return (
     <View style={styles.container}>
-      {landdata ? (
+      {landdata.length > 0 ? (
         <>
           <View style={styles.tab}>
             <Avatar.Image

@@ -16,7 +16,7 @@ export default function History() {
       try {
         setIsLoading(true);
         const response = await fetch(
-          `http://starter-express-api-git-main-salman36.vercel.app/api/auth/booked/playland/${landdata[0]._id}`
+          `https://funcare-backend.vercel.app/api/auth/booked/playland/${landdata[0]._id}`
         );
         const data = await response.json();
         setbookedPlaylands(data.bookedplayland);

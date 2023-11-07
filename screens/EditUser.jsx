@@ -21,7 +21,7 @@ const EditUser = ({ route }) => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `http://starter-express-api-git-main-salman36.vercel.app/api/auth/businessuser`,
+        `https://funcare-backend.vercel.app/api/auth/businessuser/update/${userData._id}`,
         {
           method: "POST",
           headers: {
@@ -29,7 +29,6 @@ const EditUser = ({ route }) => {
           },
           body: JSON.stringify({
             name: name,
-            email: email,
           }),
         }
       );
@@ -75,7 +74,7 @@ const EditUser = ({ route }) => {
             style={styles.input}
             placeholder="Enter your email"
             value={email}
-            onChangeText={(text) => setEmail(text)}
+            editable={false}
           />
         </View>
 
