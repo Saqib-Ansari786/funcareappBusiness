@@ -56,125 +56,119 @@ export default function PlaylandDescription({ navigation }) {
   };
 
   return (
-    <ImageBackground source={{ uri: backgroundImage }} style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Header />
-        <Text style={styles.heading}>Add/Edit Playland Packages</Text>
-        <View style={styles.formContainer}>
-          <TextInput
-            mode="outlined"
-            label="Package Name"
-            placeholder="Enter Package Name"
-            style={styles.textInput}
-            value={selectedPackage ? selectedPackage.package_name : ""}
-            onChangeText={(text) =>
-              setSelectedPackage({ ...selectedPackage, package_name: text })
-            }
-          />
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <Header />
+      <Text style={styles.heading}>Add/Edit Playland Packages</Text>
+      <View style={styles.formContainer}>
+        <TextInput
+          mode="outlined"
+          label="Package Name"
+          placeholder="Enter Package Name"
+          style={styles.textInput}
+          value={selectedPackage ? selectedPackage.package_name : ""}
+          onChangeText={(text) =>
+            setSelectedPackage({ ...selectedPackage, package_name: text })
+          }
+        />
 
-          <TextInput
-            mode="outlined"
-            label="Price"
-            placeholder="Enter Price"
-            style={styles.textInput}
-            value={selectedPackage ? selectedPackage.price : ""}
-            onChangeText={(text) =>
-              setSelectedPackage({ ...selectedPackage, price: text })
-            }
-            keyboardType="numeric"
-          />
+        <TextInput
+          mode="outlined"
+          label="Price"
+          placeholder="Enter Price"
+          style={styles.textInput}
+          value={selectedPackage ? selectedPackage.price : ""}
+          onChangeText={(text) =>
+            setSelectedPackage({ ...selectedPackage, price: text })
+          }
+          keyboardType="numeric"
+        />
 
-          <TextInput
-            mode="outlined"
-            label="Any Discount"
-            placeholder="Enter Discount"
-            style={styles.textInput}
-            value={selectedPackage ? selectedPackage.discount : ""}
-            onChangeText={(text) =>
-              setSelectedPackage({ ...selectedPackage, discount: text })
-            }
-            keyboardType="numeric"
-          />
+        <TextInput
+          mode="outlined"
+          label="Any Discount"
+          placeholder="Enter Discount"
+          style={styles.textInput}
+          value={selectedPackage ? selectedPackage.discount : ""}
+          onChangeText={(text) =>
+            setSelectedPackage({ ...selectedPackage, discount: text })
+          }
+          keyboardType="numeric"
+        />
 
-          <TextInput
-            mode="outlined"
-            label="Description"
-            placeholder="Enter your playland Description"
-            style={[styles.textInput, { height: 120 }]}
-            value={selectedPackage ? selectedPackage.discription : ""}
-            onChangeText={(text) =>
-              setSelectedPackage({ ...selectedPackage, discription: text })
-            }
-            multiline={true}
-          />
+        <TextInput
+          mode="outlined"
+          label="Description"
+          placeholder="Enter your playland Description"
+          style={[styles.textInput, { height: 120 }]}
+          value={selectedPackage ? selectedPackage.discription : ""}
+          onChangeText={(text) =>
+            setSelectedPackage({ ...selectedPackage, discription: text })
+          }
+          multiline={true}
+        />
 
-          <Button
-            onPress={() => handleSavePackage(selectedPackage)}
-            title="Save Package"
-          />
-        </View>
-        <View>
-          {existingPackages.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => handleEditPackage(item)}
-              style={styles.packageCard}
+        <Button
+          onPress={() => handleSavePackage(selectedPackage)}
+          title="Save Package"
+        />
+      </View>
+      <View>
+        {existingPackages.map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => handleEditPackage(item)}
+            style={styles.packageCard}
+          >
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: "bold",
+              }}
             >
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: "bold",
-                }}
-              >
-                Name: {item.package_name}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: "bold",
-                }}
-              >
-                Price: {item.price}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 15,
-                  fontWeight: "bold",
-                }}
-              >
-                Discount: {item.discount}
-              </Text>
-              <Text>Description: {item.discription}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <TouchableOpacity
-          style={styles.nextButton}
-          onPress={() => navigation.navigate("PlaylandTimings")}
-        >
-          <Text style={styles.nextButtonText}>Next</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </ImageBackground>
+              Name: {item.package_name}
+            </Text>
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: "bold",
+              }}
+            >
+              Price: {item.price}
+            </Text>
+            <Text
+              style={{
+                fontSize: 15,
+                fontWeight: "bold",
+              }}
+            >
+              Discount: {item.discount}
+            </Text>
+            <Text>Description: {item.discription}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+      <TouchableOpacity
+        style={styles.nextButton}
+        onPress={() => navigation.navigate("PlaylandTimings")}
+      >
+        <Text style={styles.nextButtonText}>Next</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center",
-  },
   scrollContainer: {
     flexGrow: 1,
     alignItems: "center",
     paddingVertical: 20,
     paddingHorizontal: 5,
+    backgroundColor: "#D9DAD5",
   },
   heading: {
     fontSize: 25,
     fontWeight: "bold",
-    color: "#fff",
+    color: "black",
     marginTop: 100,
     marginBottom: 20,
   },

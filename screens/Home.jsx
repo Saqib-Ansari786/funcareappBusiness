@@ -21,7 +21,7 @@ export default function Home() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const { bookingdata } = useSelector((state) => state.bookingdata);
-  const { playlandcreate, playlandupdate } = useSelector(
+  const { playlandcreate, playlandupdate, playlanddelete } = useSelector(
     (state) => state.request
   );
 
@@ -37,6 +37,7 @@ export default function Home() {
         dispatch({ type: "SET_LAND_DATA", payload: data.playland });
         dispatch({ type: "SET_PLAYLAND_CREATE", payload: false });
         dispatch({ type: "SET_PLAYLAND_UPDATE", payload: false });
+        dispatch({ type: "SET_PLAYLAND_DELETE", payload: false });
         console.log(data);
       } catch (error) {
         console.log(error);
@@ -44,7 +45,7 @@ export default function Home() {
       setIsLoading(false);
     }
     getPlaylands();
-  }, [playlandcreate, playlandupdate]);
+  }, [playlandcreate, playlandupdate, playlanddelete]);
 
   const goToManagePlaylands = () => {
     navigation.navigate("MyPlayLands");
@@ -68,11 +69,11 @@ export default function Home() {
         <ScrollView contentContainerStyle={styles.container}>
           <Text style={styles.header}>WELCOME BACK!</Text>
           <Text style={styles.header}>Dashboard</Text>
-          <View style={styles.metric}>
+          <TouchableOpacity style={styles.metric} onPress={goToManageBookings}>
             <Text style={styles.metricText}>
               Bookings: {bookingdata && bookingdata.length}
             </Text>
-          </View>
+          </TouchableOpacity>
 
           <TouchableOpacity style={styles.button} onPress={goToHelpAndSupport}>
             <Ionicons name="ios-help-circle-outline" size={30} color="white" />

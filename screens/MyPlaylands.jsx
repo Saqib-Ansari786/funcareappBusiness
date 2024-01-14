@@ -1,16 +1,48 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import { Avatar, Button } from "react-native-paper";
 import { COLORS, FONTS, SIZES, images } from "../constants";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity } from "react-native";
 
 const PlaylandScreen = () => {
   const navigation = useNavigation();
   const { landdata } = useSelector((state) => state.landdata);
+  const [loading, setLoading] = React.useState(false);
+  const dispatch = useDispatch();
   const playland = landdata[0];
   console.log(playland);
+
+  const deletePlayland = async () => {
+    console.log(playland._id);
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `https://funcare-backend.vercel.app/api/auth/playlanduser/delete/${playland._id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await response.json();
+
+      console.log(data);
+      if (data?.message === "success") {
+        alert("Playland Deleted Successfully");
+        dispatch({ type: "SET_PLAYLAND_DELETE", payload: true });
+        navigation.navigate("Home");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
 
   return (
     <View style={styles.container}>
@@ -24,21 +56,46 @@ const PlaylandScreen = () => {
             />
             <View style={styles.nameContainer}>
               <Text style={styles.name}>{playland.playland_name}</Text>
-              <Button
-                style={styles.editButton}
-                mode="contained"
-                onPress={() =>
-                  navigation.navigate("Editplayland", {
-                    playland: playland,
-                  })
-                }
-              >
-                Edit
-              </Button>
+              <View style={{ flexDirection: "row" }}>
+                <Button
+                  style={styles.editButton}
+                  mode="contained"
+                  onPress={() =>
+                    navigation.navigate("Editplayland", {
+                      playland: playland,
+                    })
+                  }
+                >
+                  Edit
+                </Button>
+                <Button
+                  style={styles.deleteButton}
+                  mode="contained"
+                  onPress={deletePlayland}
+                >
+                  {loading ? (
+                    <ActivityIndicator size="small" color="#fff" />
+                  ) : (
+                    "Delete"
+                  )}
+                </Button>
+              </View>
             </View>
           </View>
           <ScrollView style={styles.content}>
             <View style={styles.details}>
+              <Text
+                style={[
+                  styles.description,
+                  playland?.status === false
+                    ? { color: "red" }
+                    : { color: "green" },
+                ]}
+              >
+                {playland?.status === false
+                  ? "Your Playland is not verified yet By Admin"
+                  : "Your Playland is verified By Admin"}
+              </Text>
               <View style={styles.detail}>
                 <Text style={styles.detailLabel}>Earnings:</Text>
                 <Text style={styles.detailValue}>Rs. 0</Text>
@@ -122,7 +179,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   name: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#000",
   },
@@ -137,11 +194,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   description: {
-    fontSize: 18,
-    marginBottom: 30,
-    lineHeight: 28,
-    color: "#000",
-    textAlign: "justify",
+    fontSize: 16,
+    marginBottom: 20,
+    lineHeight: 20,
+    textAlign: "center",
   },
   details: {
     marginBottom: 20,
@@ -172,6 +228,11 @@ const styles = StyleSheet.create({
     padding: SIZES.radius,
     margin: SIZES.radius,
     borderRadius: SIZES.radius,
+  },
+  deleteButton: {
+    backgroundColor: "#F44336",
+    borderRadius: 20,
+    marginLeft: 5,
   },
 });
 

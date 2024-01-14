@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
+    flexGrow: 1,
   },
   text: {
     ...FONTS.h2,
@@ -135,8 +136,9 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 500,
-    marginBottom: 20,
+    height: "100%",
+    position: "absolute",
+    opacity: 0.5,
   },
 
   textInput: {

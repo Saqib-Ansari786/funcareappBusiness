@@ -47,7 +47,10 @@ export default function Playlandlocation() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image source={images.location} style={styles.image} />
+      <Image
+        source={require("../../assets/images/map.jpg")}
+        style={styles.image}
+      />
 
       <View
         style={{
@@ -119,9 +122,10 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
+    flexGrow: 1,
   },
   text: {
-    ...FONTS.h2,
+    ...FONTS.h1,
     marginVertical: 20,
   },
   buttonText: {
@@ -131,8 +135,10 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 500,
-    marginBottom: 20,
+    height: "100%",
+    resizeMode: "stretch",
+    position: "absolute",
+    opacity: 0.6,
   },
 
   textInput: {

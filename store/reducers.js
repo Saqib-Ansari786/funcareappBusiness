@@ -50,6 +50,7 @@ const updateRequestFlag = {
   userRequest: false,
   playlandcreate: false,
   playlandupdate: false,
+  playlanddelete: false,
 };
 
 const bookingdataInitialState = {
@@ -99,6 +100,9 @@ export const updateRequestReducer = createReducer(updateRequestFlag, {
   },
   SET_PLAYLAND_UPDATE: (state, action) => {
     state.playlandupdate = action.payload;
+  },
+  SET_PLAYLAND_DELETE: (state, action) => {
+    state.playlanddelete = action.payload;
   },
 });
 

@@ -56,7 +56,7 @@ export default function History() {
         <>
           <Text style={styles.header}>Booking History</Text>
 
-          {bookedPlaylands ? (
+          {bookedPlaylands.length ? (
             <FlatList
               data={bookedPlaylands}
               renderItem={renderItem}

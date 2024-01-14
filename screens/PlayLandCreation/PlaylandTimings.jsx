@@ -32,10 +32,9 @@ const TimingsScreen = ({ navigation }) => {
 
   return (
     <ImageBackground
-      source={{
-        uri: "https://images.unsplash.com/photo-1446937179942-7fcfab24fb81?q=80&w=1473&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      }}
+      source={require("../../assets/images/Picture5.jpg")}
       style={styles.container}
+      imageStyle={{ opacity: 0.5 }}
     >
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <Text
@@ -84,7 +83,7 @@ const TimingsScreen = ({ navigation }) => {
           </View>
         ))}
         <View style={{ marginTop: 20 }}>
-          <Button title="Next" onPress={handleSubmit} />
+          <Button title="Next" onPress={handleSubmit} color={"black"} />
         </View>
       </ScrollView>
     </ImageBackground>
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
   },
   timingContainer: {
     marginBottom: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.7)", // Half-transparent white background
+    backgroundColor: "rgba(255, 255, 255, 0.8)", // Half-transparent white background
     padding: 15,
     borderRadius: 10,
   },
