@@ -56,30 +56,17 @@ const PlaylandScreen = () => {
             />
             <View style={styles.nameContainer}>
               <Text style={styles.name}>{playland.playland_name}</Text>
-              <View style={{ flexDirection: "row" }}>
-                <Button
-                  style={styles.editButton}
-                  mode="contained"
-                  onPress={() =>
-                    navigation.navigate("Editplayland", {
-                      playland: playland,
-                    })
-                  }
-                >
-                  Edit
-                </Button>
-                <Button
-                  style={styles.deleteButton}
-                  mode="contained"
-                  onPress={deletePlayland}
-                >
-                  {loading ? (
-                    <ActivityIndicator size="small" color="#fff" />
-                  ) : (
-                    "Delete"
-                  )}
-                </Button>
-              </View>
+              <Button
+                style={styles.editButton}
+                mode="contained"
+                onPress={() => {
+                  navigation.navigate("Editplayland", {
+                    playland: playland,
+                  });
+                }}
+              >
+                Edit
+              </Button>
             </View>
           </View>
           <ScrollView style={styles.content}>
@@ -130,6 +117,17 @@ const PlaylandScreen = () => {
                 </View>
               ))}
             </View>
+            <Button
+              style={styles.deleteButton}
+              mode="contained"
+              onPress={deletePlayland}
+            >
+              {loading ? (
+                <ActivityIndicator size="small" color="#fff" />
+              ) : (
+                "Delete"
+              )}
+            </Button>
           </ScrollView>
         </>
       ) : (
@@ -177,16 +175,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    flexWrap: "wrap",
   },
   name: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
     color: "#000",
   },
   editButton: {
     backgroundColor: "#FBC02D",
     borderRadius: 20,
-    marginLeft: 5,
   },
   content: {
     flex: 1,

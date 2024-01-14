@@ -41,7 +41,7 @@ const TimingsScreen = ({ navigation }) => {
           style={{
             fontSize: 30,
             fontWeight: "bold",
-            color: "#fff",
+            color: "#000",
             marginTop: 100,
           }}
         >
